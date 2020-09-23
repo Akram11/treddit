@@ -1,15 +1,12 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import axios from "../axios";
-import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 
 export default class Registration extends React.Component {
     constructor() {
         super();
         this.state = {
-            first: "default name",
-            last: "default last",
             email: "a@b.com",
             password: "123456",
             error: false,
@@ -25,7 +22,6 @@ export default class Registration extends React.Component {
 
     handleSubmit() {
         let state = this.state;
-        // console.log(state);
         axios.post("/registration", state).then((response) => {
             console.log(response);
             location.replace("/");
@@ -33,32 +29,13 @@ export default class Registration extends React.Component {
     }
 
     render() {
-        let { first, last, email, password } = this.state;
+        let { email, password } = this.state;
         return (
             <div>
                 <h3>Register here:</h3>
                 {this.state.error && (
                     <p className="error">something went wrong!</p>
                 )}
-                <TextField
-                    type="text"
-                    value={first}
-                    label="First Name"
-                    variant="outlined"
-                    required
-                    onChange={(e) => this.handleChange(e)}
-                    name="first"
-                />
-                <TextField
-                    type="text"
-                    value={last}
-                    label="Last Name"
-                    variant="outlined"
-                    required
-                    onChange={(e) => this.handleChange(e)}
-                    name="last"
-                />
-
                 <TextField
                     type="email"
                     value={email}
@@ -82,11 +59,8 @@ export default class Registration extends React.Component {
                     variant="contained"
                     color="primary"
                 >
-                    Register
+                    Login
                 </Button>
-                <p>
-                    {first} {last} {email} {password}
-                </p>
             </div>
         );
     }

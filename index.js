@@ -4,6 +4,7 @@ const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const bc = require("./bc.js");
+const db = require("./db.js");
 
 app.use(express.json());
 app.use(
@@ -45,39 +46,25 @@ app.get("/welcome", (req, res) => {
 app.post("/registration", (req, res) => {
     console.log("post", req.body);
     const { first, last, email, password } = req.body;
-    bc.hash(password).then((hash) => {
-        console.log("hash", hash);
-    });
-    // const { fname, lname, email, pwd } = req.body;
-    // if (isEmpty(fname, lname, email, pwd)) {
-    //     res.render("register", {
-    //         layout: "index",
-    //         msg: "something went wrong, please try again",
-    //     });
-    // } else {
-    //     bc.hash(pwd)
-    //         .then((hash) => {
-    //             db.addUser(fname, lname, email.toLowerCase(), hash)
-    //                 .then(({ rows }) => {
-    //                     req.session.userId = rows[0].id;
-    //                     req.session.name = fname;
-    //                     res.redirect(`/`);
-    //                 })
-    //                 .catch((err) => {
-    //                     console.log(err);
-    //                     res.render("register", {
-    //                         layout: "index",
-    //                         msg: "somthing went wrong!",
-    //                     });
-    //                 });
-    //         })
-    //         .catch((err) => {
-    //             res.render("register", {
-    //                 layout: "index",
-    //             });
-    //             console.log(err);
-    //         });
-    // }
+    bc.hash(password)
+        .then((hash) => {
+            db.addUser(first, last, email.toLowerCase(), hash)
+                .then(({ rows }) => {
+                    req.session.userId = rows[0].id;
+                    res.sendStatus(200);
+                    console.log(req.session.userId);
+                })
+                .catch((err) => {
+                    console.error("error adding a user", err);
+                    res.status(500).send("Something broke!");
+                });
+        })
+        .catch((err) => {
+            console.error("error Hashig the password", err);
+            res.status(500).send({
+                message: "This is an error!",
+            });
+        });
 });
 
 app.get("*", function (req, res) {
