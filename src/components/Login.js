@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import axios from "../axios";
 import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -22,8 +23,7 @@ export default class Registration extends React.Component {
 
     handleSubmit() {
         let state = this.state;
-        axios.post("/registration", state).then((response) => {
-            console.log(response);
+        axios.post("/login", state).then(() => {
             location.replace("/");
         });
     }
@@ -61,6 +61,7 @@ export default class Registration extends React.Component {
                 >
                     Login
                 </Button>
+                <Link to="/">Click here to register!</Link>
             </div>
         );
     }

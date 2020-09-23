@@ -11,12 +11,12 @@ module.exports.addUser = (fname, lname, email, hpwd) => {
     );
 };
 
-// module.exports.getUserEmail = (mail) => {
-//     return db.query(
-//         `SELECT id, email, password AS hash FROM users WHERE email = $1`,
-//         [mail]
-//     );
-// };
+module.exports.getUserEmail = (mail) => {
+    return db.query(
+        `SELECT id, email, password AS hash FROM users WHERE email = $1`,
+        [mail]
+    );
+};
 
 // module.exports.getUser = (id) => {
 //     return db.query(`SELECT first, last FROM users WHERE id = $1`, [id]);

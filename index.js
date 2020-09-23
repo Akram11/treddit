@@ -67,6 +67,26 @@ app.post("/registration", (req, res) => {
         });
 });
 
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.getUserEmail(email).then(({ rows }) => {
+        console.log(rows);
+        if (rows.length === 0) {
+            res.sendStatus(500);
+        } else {
+            bc.compare(password, rows[0].hash).then((result) => {
+                console.log(result);
+                if (!result) {
+                    res.sendStatus(500);
+                } else {
+                    req.session.userId = rows[0].id;
+                    res.sendStatus(200);
+                }
+            });
+        }
+    });
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

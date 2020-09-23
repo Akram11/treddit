@@ -1,8 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import axios from "../axios";
-import Input from "@material-ui/core/Input";
+// import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -85,6 +86,7 @@ export default class Registration extends React.Component {
                     Register
                 </Button>
                 <p>
+                    <Link to="/login">Click here to Log in!</Link>
                     {first} {last} {email} {password}
                 </p>
             </div>
