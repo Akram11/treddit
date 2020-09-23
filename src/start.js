@@ -1,13 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import Welcome from "./pages/Welcome";
 
-ReactDOM.render(
-    <HelloWorld />,
-    document.querySelector('main')
-);
-
-function HelloWorld() {
-    return (
-        <div>Hello, World!</div>
-    );
+let component;
+if (location.pathname === "/welcome") {
+    component = <Welcome />;
+} else {
+    component = <p>nothing here</p>;
 }
+
+ReactDOM.render(component, document.querySelector("main"));
