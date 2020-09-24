@@ -48,41 +48,36 @@ app.post("/registration", async (req, res) => {
         const { first, last, email, password } = req.body;
         const hash = await bc.hash(password);
         const { rows } = await db.addUser(
-            first,
-            last,
+            first.toLowerCase(),
+            last.toLowerCase(),
             email.toLowerCase(),
             hash
         );
         req.session.userId = rows[0].id;
         res.sendStatus(200);
     } catch (e) {
+        console.log(e);
         res.status(500).json({
             error: true,
         });
     }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    db.getUserEmail(email).then(({ rows }) => {
-        console.log(rows);
-        if (rows.length === 0) {
-            res.sendStatus(500);
+    let { rows } = await db.getUserEmail(email);
+    if (rows.length === 0) {
+        res.sendStatus(500);
+    } else {
+        const result = await bc.compare(password, rows[0].hash);
+        if (!result) {
+            console.log(`user doesn't exist`);
+            res.sendStatus(404);
         } else {
-            bc.compare(password, rows[0].hash).then((result) => {
-                console.log(result);
-                if (!result) {
-                    res.sendStatus(404).JSON({
-                        message:
-                            "there's no account registered with this email address",
-                    });
-                } else {
-                    req.session.userId = rows[0].id;
-                    res.sendStatus(200);
-                }
-            });
+            req.session.userId = rows[0].id;
+            res.sendStatus(200);
         }
-    });
+    }
 });
 
 app.get("*", function (req, res) {

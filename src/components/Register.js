@@ -24,32 +24,22 @@ export default class Registration extends React.Component {
         });
     }
 
-    handleSubmit() {
+    async handleSubmit() {
         let state = this.state;
-        // console.log(state);
-        axios
-            .post("/registration", state)
-            .then((response) => {
-                console.log(response.data.message);
-                location.replace("/");
-            })
-            .catch((error) => {
-                this.setState({
-                    error:
-                        "Something went wrong, please make sure that you have entered a valid password and email address.",
-                });
-            });
+        try {
+            await axios.post("/registration", state);
+            location.replace("/");
+        } catch (e) {
+            this.setState({ error: "something went wrong" });
+        }
     }
 
     render() {
         let { first, last, email, password } = this.state;
         return (
             <div>
-                {this.state.error}
                 <h3>Register here:</h3>
-                {this.state.error && (
-                    <p className="error">something went wrong!</p>
-                )}
+
                 <TextField
                     size="small"
                     type="text"
@@ -98,9 +88,9 @@ export default class Registration extends React.Component {
                 >
                     Register
                 </Button>
+                {this.state.error}
                 <p>
                     <Link to="/login">Click here to Log in!</Link>
-                    {first} {last} {email} {password}
                 </p>
             </div>
         );

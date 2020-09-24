@@ -10,7 +10,7 @@ export default class Login extends React.Component {
         this.state = {
             email: "a@b.com",
             password: "123456",
-            error: false,
+            error: "",
         };
     }
 
@@ -21,11 +21,14 @@ export default class Login extends React.Component {
         });
     }
 
-    handleSubmit() {
+    async handleSubmit() {
         let state = this.state;
-        axios.post("/login", state).then(() => {
+        try {
+            await axios.post("/login", state);
             location.replace("/");
-        });
+        } catch (e) {
+            this.setState({ error: "something went wrong" });
+        }
     }
 
     render() {
