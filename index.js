@@ -5,6 +5,8 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const bc = require("./bc.js");
 const db = require("./db.js");
+const cryptoRandomString = require("crypto-random-string");
+const ses = require("./ses");
 
 app.use(express.json());
 app.use(
@@ -78,6 +80,20 @@ app.post("/login", async (req, res) => {
             res.sendStatus(200);
         }
     }
+});
+
+app.post("/reset", async (req, res) => {
+    const { email } = req.body;
+    console.log(email);
+    const secretCode = cryptoRandomString({
+        length: 6,
+    });
+    ses.sendEmail(email, "here u go", secretCode);
+    // let { rows } = await db.getUserEmail(email);
+    // if (rows.length === 0) {
+    //     res.sendStatus(500);
+    // } else {
+    // }
 });
 
 app.get("*", function (req, res) {

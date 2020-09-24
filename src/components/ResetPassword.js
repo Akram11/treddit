@@ -1,12 +1,13 @@
 import React from "react";
 import { TextField, Button } from "@material-ui/core/";
 import { Link } from "react-router-dom";
+import axios from "../axios";
 
 export default class ResetPassword extends React.Component {
     constructor() {
         super();
         this.state = {
-            email: "a@b.com",
+            email: "",
             currentDisplay: 1,
             code: "",
             password: "",
@@ -20,9 +21,10 @@ export default class ResetPassword extends React.Component {
             [name]: e.target.value,
         });
     }
-    handleSubmit(text) {
-        this.setState({ ...this.state.currentDisplay++ });
+    async handleSubmit() {
         console.log(this.state);
+        await axios.post("/reset", { email: this.state.email });
+        this.setState({ ...this.state.currentDisplay++ });
     }
     render() {
         let { code, currentDisplay, email, password } = this.state;
@@ -79,7 +81,7 @@ export default class ResetPassword extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                         <Button
-                            onClick={(e) => this.handleSubmit("code")}
+                            onClick={(e) => this.handleSubmit()}
                             variant="contained"
                             color="primary"
                             name="value"
