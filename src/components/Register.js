@@ -13,7 +13,7 @@ export default class Registration extends React.Component {
             last: "default last",
             email: "a@b.com",
             password: "123456",
-            error: false,
+            error: "",
         };
     }
 
@@ -27,21 +27,31 @@ export default class Registration extends React.Component {
     handleSubmit() {
         let state = this.state;
         // console.log(state);
-        axios.post("/registration", state).then((response) => {
-            console.log(response);
-            location.replace("/");
-        });
+        axios
+            .post("/registration", state)
+            .then((response) => {
+                console.log(response.data.message);
+                location.replace("/");
+            })
+            .catch((error) => {
+                this.setState({
+                    error:
+                        "Something went wrong, please make sure that you have entered a valid password and email address.",
+                });
+            });
     }
 
     render() {
         let { first, last, email, password } = this.state;
         return (
             <div>
+                {this.state.error}
                 <h3>Register here:</h3>
                 {this.state.error && (
                     <p className="error">something went wrong!</p>
                 )}
                 <TextField
+                    size="small"
                     type="text"
                     value={first}
                     label="First Name"
@@ -51,6 +61,7 @@ export default class Registration extends React.Component {
                     name="first"
                 />
                 <TextField
+                    size="small"
                     type="text"
                     value={last}
                     label="Last Name"
@@ -61,6 +72,7 @@ export default class Registration extends React.Component {
                 />
 
                 <TextField
+                    size="small"
                     type="email"
                     value={email}
                     label="email"
@@ -70,6 +82,7 @@ export default class Registration extends React.Component {
                     name="email"
                 />
                 <TextField
+                    size="small"
                     value={password}
                     label="Password"
                     variant="outlined"

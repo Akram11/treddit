@@ -43,28 +43,23 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-app.post("/registration", (req, res) => {
-    console.log("post", req.body);
-    const { first, last, email, password } = req.body;
-    bc.hash(password)
-        .then((hash) => {
-            db.addUser(first, last, email.toLowerCase(), hash)
-                .then(({ rows }) => {
-                    req.session.userId = rows[0].id;
-                    res.sendStatus(200);
-                    console.log(req.session.userId);
-                })
-                .catch((err) => {
-                    console.error("error adding a user", err);
-                    res.status(500).send("Something broke!");
-                });
-        })
-        .catch((err) => {
-            console.error("error Hashig the password", err);
-            res.status(500).send({
-                message: "This is an error!",
-            });
+app.post("/registration", async (req, res) => {
+    try {
+        const { first, last, email, password } = req.body;
+        const hash = await bc.hash(password);
+        const { rows } = await db.addUser(
+            first,
+            last,
+            email.toLowerCase(),
+            hash
+        );
+        req.session.userId = rows[0].id;
+        res.sendStatus(200);
+    } catch (e) {
+        res.status(500).json({
+            error: true,
         });
+    }
 });
 
 app.post("/login", (req, res) => {
@@ -77,7 +72,10 @@ app.post("/login", (req, res) => {
             bc.compare(password, rows[0].hash).then((result) => {
                 console.log(result);
                 if (!result) {
-                    res.sendStatus(500);
+                    res.sendStatus(404).JSON({
+                        message:
+                            "there's no account registered with this email address",
+                    });
                 } else {
                     req.session.userId = rows[0].id;
                     res.sendStatus(200);

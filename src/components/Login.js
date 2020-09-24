@@ -4,7 +4,7 @@ import axios from "../axios";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 
-export default class Registration extends React.Component {
+export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -37,6 +37,7 @@ export default class Registration extends React.Component {
                     <p className="error">something went wrong!</p>
                 )}
                 <TextField
+                    size="small"
                     type="email"
                     value={email}
                     label="email"
@@ -46,6 +47,7 @@ export default class Registration extends React.Component {
                     name="email"
                 />
                 <TextField
+                    size="small"
                     value={password}
                     label="Password"
                     variant="outlined"
@@ -62,6 +64,7 @@ export default class Registration extends React.Component {
                     Login
                 </Button>
                 <Link to="/">Click here to register!</Link>
+                <Link to="/reset">Forgot password?</Link>
             </div>
         );
     }
