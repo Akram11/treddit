@@ -18,6 +18,31 @@ module.exports.getUserEmail = (mail) => {
     );
 };
 
+module.exports.addCode = (email, code) => {
+    return db.query(
+        `INSERT INTO codes(email, code)
+                     VALUES ($1, $2)`,
+        [email, code]
+    );
+};
+
+module.exports.getCode = (email) => {
+    return db.query(
+        `SELECT * FROM codes WHERE
+         email=($1) 
+         AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' 
+         ORDER BY id DESC LIMIT 1`,
+        [email]
+    );
+};
+
+// SELECT * FROM codes WHERE
+//          email='akram.f11+test@gmail.com'
+//          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'
+//          ORDER BY id DESC LIMIT 1
+// SELECT * FROM my_table
+// WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes';
+
 // module.exports.getUser = (id) => {
 //     return db.query(`SELECT first, last FROM users WHERE id = $1`, [id]);
 // };
@@ -44,14 +69,14 @@ module.exports.getUserEmail = (mail) => {
 //     );
 // };
 
-// module.exports.updateUserPwd = (first, last, email, pwd, id) => {
-//     return db.query(
-//         `UPDATE users
-//          SET first = $1, last = $2, email = $3, password = $4
-//          WHERE id = $5`,
-//         [first, last, email, pwd, id]
-//     );
-// };
+module.exports.updateUserPwd = (email, password) => {
+    return db.query(
+        `UPDATE users
+         SET password = $2
+         WHERE email = $1`,
+        [email, password]
+    );
+};
 
 // module.exports.updateProfile = (age, city, url, user_id) => {
 //     return db.query(

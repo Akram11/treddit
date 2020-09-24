@@ -11,7 +11,7 @@ export default class ResetPassword extends React.Component {
             currentDisplay: 1,
             code: "",
             password: "",
-            error: false,
+            error: "",
         };
     }
 
@@ -22,12 +22,21 @@ export default class ResetPassword extends React.Component {
         });
     }
     async handleSubmit() {
-        console.log(this.state);
-        await axios.post("/reset", { email: this.state.email });
-        this.setState({ ...this.state.currentDisplay++ });
+        try {
+            await axios.post("/reset", { email: this.state.email });
+            this.setState({ currentDisplay: this.state.currentDisplay + 1 });
+        } catch (e) {
+            this.setState({ error: "something went wrong" });
+        }
+    }
+
+    async handleVerify() {
+        let { code, email, password } = this.state;
+        await axios.post("/verify", { code, email, password });
+        this.setState({ currentDisplay: this.state.currentDisplay + 1 });
     }
     render() {
-        let { code, currentDisplay, email, password } = this.state;
+        let { code, currentDisplay, email, password, error } = this.state;
         console.log(currentDisplay);
 
         return (
@@ -64,7 +73,7 @@ export default class ResetPassword extends React.Component {
                             size="small"
                             type="text"
                             value={code}
-                            label="email"
+                            label="code"
                             variant="outlined"
                             required
                             onChange={(e) => this.handleChange(e)}
@@ -81,7 +90,7 @@ export default class ResetPassword extends React.Component {
                             onChange={(e) => this.handleChange(e)}
                         />
                         <Button
-                            onClick={(e) => this.handleSubmit()}
+                            onClick={(e) => this.handleVerify()}
                             variant="contained"
                             color="primary"
                             name="value"
@@ -99,6 +108,7 @@ export default class ResetPassword extends React.Component {
                         </p>
                     </>
                 )}
+                {error}
             </>
         );
     }

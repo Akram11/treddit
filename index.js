@@ -85,15 +85,38 @@ app.post("/login", async (req, res) => {
 app.post("/reset", async (req, res) => {
     const { email } = req.body;
     console.log(email);
-    const secretCode = cryptoRandomString({
-        length: 6,
-    });
-    ses.sendEmail(email, "here u go", secretCode);
-    // let { rows } = await db.getUserEmail(email);
-    // if (rows.length === 0) {
-    //     res.sendStatus(500);
-    // } else {
-    // }
+    let { rows } = await db.getUserEmail(email);
+    if (rows.length === 0) {
+        res.sendStatus(500);
+    } else {
+        const secretCode = cryptoRandomString({
+            length: 6,
+        });
+        await db.addCode(email, secretCode);
+        ses.sendEmail(email, "Here you Go!", secretCode);
+        res.sendStatus(200);
+    }
+});
+
+app.post("/verify", async (req, res) => {
+    const { code, email, password } = req.body;
+    const { rows } = await db.getCode(email);
+    const { code: dbCode, email: dbEmail } = rows[0];
+    if (dbCode === code) {
+        try {
+            const hash = await bc.hash(password);
+            await db.updateUserPwd(dbEmail, hash);
+            res.sendStatus(200);
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        }
+    } else {
+        res.sendStatus(500);
+    }
+    // res.sendStatus(200);
+
+    // console.log(code, password, rows[0].code);
 });
 
 app.get("*", function (req, res) {
