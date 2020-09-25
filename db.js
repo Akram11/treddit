@@ -36,6 +36,13 @@ module.exports.getCode = (email) => {
     );
 };
 
+module.exports.getUser = (id) => {
+    return db.query(
+        `SELECT id, first, last, email, img_url, bio FROM users WHERE id = $1`,
+        [id]
+    );
+};
+
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'

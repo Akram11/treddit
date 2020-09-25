@@ -45,6 +45,12 @@ app.get("/welcome", (req, res) => {
     }
 });
 
+app.get("/user", async (req, res) => {
+    const user = await db.getUser(req.session.userId);
+    console.log(user);
+    res.status(200).json(user);
+});
+
 app.post("/registration", async (req, res) => {
     try {
         const { first, last, email, password } = req.body;
