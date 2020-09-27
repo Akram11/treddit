@@ -7,12 +7,18 @@ const bc = require("./bc.js");
 const db = require("./db.js");
 const cryptoRandomString = require("crypto-random-string");
 const ses = require("./ses");
+const bodyParser = require("body-parser");
+const multer = require("multer");
+const path = require("path");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
+const { s3Url } = require("./config");
 
 app.use(express.json());
 app.use(
     cookieSession({
         secret: "TOP SECRET LINE",
-        maxAge: 24 * 60 * 60,
+        maxAge: 24 * 60 * 60 * 1000,
     })
 );
 
@@ -24,7 +30,25 @@ app.use(function (req, res, next) {
 
 app.use(compression());
 app.use(express.static("./public"));
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -47,8 +71,7 @@ app.get("/welcome", (req, res) => {
 
 app.get("/user", async (req, res) => {
     const user = await db.getUser(req.session.userId);
-    console.log(user);
-    res.status(200).json(user);
+    res.status(200).json(user.rows[0]);
 });
 
 app.post("/registration", async (req, res) => {
@@ -120,9 +143,28 @@ app.post("/verify", async (req, res) => {
     } else {
         res.sendStatus(500);
     }
-    // res.sendStatus(200);
+});
 
-    // console.log(code, password, rows[0].code);
+app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
+    if (req.file) {
+        const filename = req.file.filename;
+        const url = `${s3Url}${filename}`;
+        try {
+            const result = await db.updateImg(req.session.userId, url);
+
+            res.json({
+                image: result.rows[0].img_url,
+                success: true,
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(500).json({
+                erro: "The file size is too large",
+            });
+        }
+    } else {
+        res.sendStatus(500);
+    }
 });
 
 app.get("*", function (req, res) {

@@ -43,6 +43,17 @@ module.exports.getUser = (id) => {
     );
 };
 
+module.exports.updateImg = (id, url) => {
+    return db.query(
+        `
+        UPDATE users 
+        SET img_url = ($2)
+        WHERE id = ($1)
+        RETURNING img_url;`,
+        [id, url]
+    );
+};
+
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'
