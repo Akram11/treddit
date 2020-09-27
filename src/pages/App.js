@@ -3,6 +3,7 @@ import axios from "../axios";
 import ProfilePicture from "../components/ProfilePicture";
 import Logo from "../components/logo";
 import Uploader from "../components/Uploader";
+import Profile from "../components/Profile";
 import { Button } from "@material-ui/core/";
 
 export default class App extends Component {
@@ -41,15 +42,20 @@ export default class App extends Component {
         let state = this.state;
         return (
             <>
-                <Logo />
-                {state.test}
                 <div className="">welcome to app</div>
-                <ProfilePicture
+                <Profile
+                    Bio={state.bio}
                     first={state.first}
                     last={state.last}
                     img_url={this.state.img_url}
-                    clickHandler={() => this.setState({ showModal: true })}
+                    showModal={() => this.setState({ showModal: true })}
+                    setBio={() =>
+                        this.setState((state, bio) => {
+                            bio;
+                        })
+                    }
                 />
+
                 {state.showModal && (
                     <Uploader
                         changeImg={(image) => this.setImage(image)}

@@ -6,30 +6,11 @@ export default function ProfilePicture({
     last,
     img_url,
     handleChildSubmit,
-    clickHandler,
+    showModal,
 }) {
-    // <img src={img_url} />;
-
     return (
         <>
-            <img
-                src={img_url}
-                alt={`${first} ${last}`}
-                onClick={clickHandler}
-            />
-            {/* <Button variant="contained" color="primary" name="value">
-                change picture
-            </Button> */}
+            <img src={img_url} alt={`${first} ${last}`} onClick={showModal} />
         </>
     );
 }
-
-// import React, { Component } from "react";
-// // import "./styles.css";
-// export default function Child({ data, onChildClick }) {
-//     return (
-//         <div>
-//             <button onClick={(e) => onChildClick(e)}>{data}</button>
-//         </div>
-//     );
-// }
