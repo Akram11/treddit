@@ -70,8 +70,32 @@ app.get("/welcome", (req, res) => {
 });
 
 app.get("/user", async (req, res) => {
-    const user = await db.getUser(req.session.userId);
-    res.status(200).json(user.rows[0]);
+    try {
+        const user = await db.getUser(req.session.userId);
+        res.status(200).json(user.rows[0]);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+app.get(`/user/:id.json`, async (req, res) => {
+    // console.log(req.session.userid, req.params.id);
+    if (req.session.userId == req.params.id) {
+        res.json({ redirect: true });
+    } else {
+        try {
+            const user = await db.getUser(req.params.id);
+            if (user.rows.length > 0) {
+                res.status(200).json(user.rows[0]);
+            } else {
+                res.json({ redirect: true });
+            }
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        }
+    }
 });
 
 app.post("/registration", async (req, res) => {

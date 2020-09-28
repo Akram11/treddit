@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import axios from "../axios";
-import ProfilePicture from "../components/ProfilePicture";
-import Logo from "../components/logo";
 import Uploader from "../components/Uploader";
 import Profile from "../components/Profile";
 import { Button } from "@material-ui/core/";
-import { HashRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
+import OtherProfile from "../components/OtherProfile.js";
 
 export default class App extends Component {
     constructor(props) {
@@ -18,14 +17,12 @@ export default class App extends Component {
 
     async componentDidMount() {
         let { data } = await axios.get("/user");
-        // console.log(data.rows);
         this.setState({
             ...data,
             img_url:
                 data.img_url ||
                 `https://api.adorable.io/avatars/229/${data.email}@adorable.io.png`,
         });
-        console.log("mount", this.state.bio);
     }
 
     setImage(image) {
@@ -47,27 +44,60 @@ export default class App extends Component {
 
         if (this.state.id) {
             return (
-                <>
-                    <div className="">welcome to app</div>
-                    <Profile
-                        bio={this.state.bio}
-                        first={state.first}
-                        last={state.last}
-                        img_url={this.state.img_url}
-                        showModal={() => this.setState({ showModal: true })}
-                        setBio={(bio) => this.setBio(bio)}
-                    />
-
-                    {state.showModal && (
-                        <Uploader
-                            changeImg={(image) => this.setImage(image)}
-                            close={() => this.setState({ showModal: false })}
+                <BrowserRouter>
+                    <>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    id={state.id}
+                                    first={state.first}
+                                    last={state.last}
+                                    img_url={state.img_url}
+                                    bio={state.bio}
+                                    showModal={() =>
+                                        this.setState({ showModal: true })
+                                    }
+                                    setBio={(bio) => this.setBio(bio)}
+                                />
+                            )}
                         />
-                    )}
-                </>
+                        <Route
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
+                    </>
+                </BrowserRouter>
             );
         } else {
             return <p>loading </p>;
         }
     }
+}
+{
+    /* <>
+    <div className="">welcome to app</div>
+    <Profile
+        bio={this.state.bio}
+        first={state.first}
+        last={state.last}
+        img_url={this.state.img_url}
+        showModal={() => this.setState({ showModal: true })}
+        setBio={(bio) => this.setBio(bio)}
+    />
+
+    {state.showModal && (
+        <Uploader
+            changeImg={(image) => this.setImage(image)}
+            close={() => this.setState({ showModal: false })}
+        />
+    )}
+</>; */
 }

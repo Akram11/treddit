@@ -9,12 +9,10 @@ export default class Profile extends React.Component {
 
         this.state = {
             textFieldVisible: false,
-            bio: props.bio || "before submit",
+            bio: props.bio || "No Bio yet",
             setBio: props.setBio,
             showTextField: false,
         };
-
-        console.log("constructor", this.state);
     }
 
     setBio(bio) {
@@ -35,9 +33,9 @@ export default class Profile extends React.Component {
         console.log(res);
         this.setState({
             bio: res.data.bio,
+            showTextField: false,
         });
         this.setBio(this.state.bio);
-        console.log("after submit", this.state);
     }
 
     render() {

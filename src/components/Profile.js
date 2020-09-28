@@ -7,7 +7,6 @@ import { Button } from "@material-ui/core/";
 
 export default function Profile({ ...props }) {
     let { first, last, bio, img_url, showModal, setBio } = props;
-    console.log("from profile", bio);
     return (
         <>
             <Logo />
