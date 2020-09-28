@@ -5,6 +5,7 @@ import Logo from "../components/logo";
 import Uploader from "../components/Uploader";
 import Profile from "../components/Profile";
 import { Button } from "@material-ui/core/";
+import { HashRouter, Route } from "react-router-dom";
 
 export default class App extends Component {
     constructor(props) {
@@ -24,11 +25,7 @@ export default class App extends Component {
                 data.img_url ||
                 `https://api.adorable.io/avatars/229/${data.email}@adorable.io.png`,
         });
-    }
-
-    setStateFunction(state, props) {
-        const newState = { ...state, showModal: true };
-        return newState;
+        console.log("mount", this.state.bio);
     }
 
     setImage(image) {
@@ -38,31 +35,39 @@ export default class App extends Component {
         });
     }
 
+    setBio(bio) {
+        this.setState({
+            bio: bio,
+        });
+        console.log("from app", this.state);
+    }
+
     render() {
         let state = this.state;
-        return (
-            <>
-                <div className="">welcome to app</div>
-                <Profile
-                    Bio={state.bio}
-                    first={state.first}
-                    last={state.last}
-                    img_url={this.state.img_url}
-                    showModal={() => this.setState({ showModal: true })}
-                    setBio={() =>
-                        this.setState((state, bio) => {
-                            bio;
-                        })
-                    }
-                />
 
-                {state.showModal && (
-                    <Uploader
-                        changeImg={(image) => this.setImage(image)}
-                        close={() => this.setState({ showModal: false })}
+        if (this.state.id) {
+            return (
+                <>
+                    <div className="">welcome to app</div>
+                    <Profile
+                        bio={this.state.bio}
+                        first={state.first}
+                        last={state.last}
+                        img_url={this.state.img_url}
+                        showModal={() => this.setState({ showModal: true })}
+                        setBio={(bio) => this.setBio(bio)}
                     />
-                )}
-            </>
-        );
+
+                    {state.showModal && (
+                        <Uploader
+                            changeImg={(image) => this.setImage(image)}
+                            close={() => this.setState({ showModal: false })}
+                        />
+                    )}
+                </>
+            );
+        } else {
+            return <p>loading </p>;
+        }
     }
 }

@@ -54,6 +54,17 @@ module.exports.updateImg = (id, url) => {
     );
 };
 
+module.exports.updateBio = (id, bio) => {
+    return db.query(
+        `
+        UPDATE users 
+        SET bio = ($2)
+        WHERE id = ($1)
+        RETURNING  bio;`,
+        [id, bio]
+    );
+};
+
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'

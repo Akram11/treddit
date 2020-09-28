@@ -113,7 +113,6 @@ app.post("/login", async (req, res) => {
 
 app.post("/reset", async (req, res) => {
     const { email } = req.body;
-    console.log(email);
     let { rows } = await db.getUserEmail(email);
     if (rows.length === 0) {
         res.sendStatus(500);
@@ -164,6 +163,16 @@ app.post("/upload", uploader.single("file"), s3.upload, async (req, res) => {
         }
     } else {
         res.sendStatus(500);
+    }
+});
+
+app.post("/bio", async (req, res) => {
+    try {
+        const result = await db.updateBio(req.session.userId, req.body.newBio);
+        res.status(200).json(result.rows[0]);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e });
     }
 });
 
