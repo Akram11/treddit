@@ -83,13 +83,23 @@ app.get("/get-people", async (req, res) => {
     try {
         const { rows } = await db.getRecentUsers();
         res.json(rows);
-    } catch (err) {
-        console.log("err in getNewUsers: ", err);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+app.get("/search-users", async (req, res) => {
+    try {
+        const { rows } = await db.searchUsers(req.query.q);
+        res.json(rows);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
     }
 });
 
 app.get(`/user/:id.json`, async (req, res) => {
-    // console.log(req.session.userid, req.params.id);
     if (req.session.userId == req.params.id) {
         res.json({ redirect: true });
     } else {

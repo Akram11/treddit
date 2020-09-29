@@ -66,10 +66,20 @@ module.exports.updateBio = (id, bio) => {
 };
 
 module.exports.getRecentUsers = () => {
-    return db.query(`SELECT * FROM
-     users 
+    return db.query(`SELECT first, last, img_url, email,bio FROM users 
      ORDER BY id DESC LIMIT 3;
      `);
+};
+
+module.exports.searchUsers = (q) => {
+    return db.query(
+        `
+        SELECT first, last, img_url, bio FROM users
+        WHERE first ILIKE $1
+        LIMIT 10
+        `,
+        [q + "%"]
+    );
 };
 
 // SELECT * FROM codes WHERE

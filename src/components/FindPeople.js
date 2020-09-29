@@ -1,37 +1,65 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
+import TextField from "@material-ui/core/TextField";
 
 export default function FindPeople() {
-    const [userInput, setUserInput] = useState("test");
+    const [userInput, setUserInput] = useState("");
     const [users, setUsers] = useState([]);
 
-    console.log(userInput);
     useEffect(() => {
-        (async () => {
-            try {
-                const { data } = await axios.get("/get-people");
-                setUsers(data);
-            } catch (err) {
-                console.log("err: ", err);
-            }
-        })();
-    }, []);
-    console.log("after request", users);
+        if (userInput != "") {
+            (async () => {
+                try {
+                    const { data } = await axios.get("/search-users", {
+                        params: { q: userInput },
+                    });
+                    setUsers(data);
+                } catch (err) {
+                    console.log("err: ", err);
+                }
+            })();
+        } else {
+            (async () => {
+                try {
+                    const { data } = await axios.get("/get-people");
+                    setUsers(data);
+                } catch (err) {
+                    console.log("err: ", err);
+                }
+            })();
+        }
+    }, [userInput]);
+
+    function handleChange(e) {
+        setUserInput(e.target.value);
+    }
+
     return (
         <>
+            <TextField
+                id="standard-search"
+                label="Search people"
+                type="search"
+                onChange={handleChange}
+            />
+            {userInput}
             <h1>find peope</h1>
-            {users.map((user, i) => {
-                return (
-                    <UserCard
-                        key={i}
-                        first={user.first}
-                        last={user.last}
-                        email={user.email}
-                        img_url={user.img_url}
-                        bio={user.bio}
-                    />
-                );
-            })}
+            {users.length < 1 ? (
+                <h1>No results</h1>
+            ) : (
+                users.map((user, i) => {
+                    return (
+                        <UserCard
+                            key={i}
+                            first={user.first}
+                            last={user.last}
+                            email={user.email}
+                            img_url={user.img_url}
+                            bio={user.bio}
+                        />
+                    );
+                })
+            )}
         </>
     );
 }
