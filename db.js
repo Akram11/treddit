@@ -65,6 +65,13 @@ module.exports.updateBio = (id, bio) => {
     );
 };
 
+module.exports.getRecentUsers = () => {
+    return db.query(`SELECT * FROM
+     users 
+     ORDER BY id DESC LIMIT 3;
+     `);
+};
+
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'

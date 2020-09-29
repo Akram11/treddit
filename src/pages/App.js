@@ -5,6 +5,7 @@ import Profile from "../components/Profile";
 import { Button } from "@material-ui/core/";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "../components/OtherProfile.js";
+import FindPeople from "../components/FindPeople";
 
 export default class App extends Component {
     constructor(props) {
@@ -73,6 +74,9 @@ export default class App extends Component {
                                 />
                             )}
                         />
+                        <Route path="/users">
+                            <FindPeople />
+                        </Route>
                     </>
                 </BrowserRouter>
             );
