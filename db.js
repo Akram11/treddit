@@ -82,6 +82,31 @@ module.exports.searchUsers = (q) => {
     );
 };
 
+module.exports.getFriendRelation = (id1, id2) => {
+    return db.query(
+        `SELECT * FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1);`,
+        [id1, id2]
+    );
+};
+
+module.exports.addFriendRelation = (sender_id, recipient_id) => {
+    return db.query(
+        `INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2) returning *`,
+        [sender_id, recipient_id]
+    );
+};
+
+module.exports.updateFriendship = (sender_id, recipient_id, status) => {
+    return db.query(
+        `UPDATE friendships
+         SET accepted = $3
+         WHERE sender_id = $1 AND recipient_id = $2`,
+        [sender_id, recipient_id, status]
+    );
+};
+
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'

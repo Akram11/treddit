@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "../axios";
+import FriendButton from "./FriendButton";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -15,14 +16,12 @@ export default class OtherProfile extends React.Component {
         if (data.redirect) {
             this.props.history.push("/");
         } else {
-            this.setState(
-                {
-                    ...data,
-                },
-                () => {
-                    console.log("thisState", this.state);
-                }
-            );
+            this.setState({
+                ...data,
+                img_url:
+                    data.img_url ||
+                    `https://api.adorable.io/avatars/200/${data.email}@adorable.io.png`,
+            });
         }
     }
 
@@ -36,18 +35,15 @@ export default class OtherProfile extends React.Component {
                         {this.state.first} {this.state.last}
                     </p>
                     <img src={this.state.img_url} alt="${first}${last}" />
+                    <FriendButton
+                        text={"send friend request!"}
+                        otherID={this.state.id}
+                    />
                     <p>{this.state.bio}</p>
                 </>
             );
         } else {
             return <h1>Loading...</h1>;
         }
-
-        // let { id, first, last, img_url, bio } = this.state;
-        // if (this.state.id) {
-
-        // } else {
-        //     <>Loading...</>;
-        // }
     }
 }

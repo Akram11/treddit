@@ -99,6 +99,40 @@ app.get("/search-users", async (req, res) => {
     }
 });
 
+app.get("/friend-relation/:viewed", async (req, res) => {
+    const viewed = req.params.viewed;
+    const viewer = req.session.userId;
+    const { rows } = await db.getFriendRelation(viewer, viewed);
+    if (rows.length < 1) {
+        res.sendStatus(200);
+    } else {
+        const isAccepted = rows[0].accepted;
+        const sender = rows[0].sender_id;
+        const recipient = rows[0].recipient_id;
+        if (isAccepted) {
+            res.json({ mgs: "unfriend" });
+        } else {
+            if (viewer == sender) {
+                res.status(200).json({ msg: "cancel friend request" });
+            } else {
+                res.status(200).json({ msg: "accept friend request" });
+            }
+        }
+    }
+    // const isAccepted = rows[0].accepted;
+    console.log(rows);
+    // res.json(isAccepted);
+    console.log(req.params.viewed, req.session.userId, rows);
+});
+
+app.post("/friend-request", async (req, res) => {
+    const recipient_id = req.body.otherID;
+    const sender_id = req.session.userId;
+    const { rows } = await db.addFriendRelation(sender_id, recipient_id);
+    res.json(rows);
+    console.log(rows);
+});
+
 app.get(`/user/:id.json`, async (req, res) => {
     if (req.session.userId == req.params.id) {
         res.json({ redirect: true });
