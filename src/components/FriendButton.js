@@ -9,8 +9,7 @@ export default function FriendButton({ otherID }) {
     useEffect(() => {
         (async () => {
             const { data } = await axios.get(`/friend-relation/${otherID}`);
-            setText(data.msg || text);
-            console.log(data, text);
+            setText(data.msg);
         })();
     }, [text]);
 
@@ -42,6 +41,16 @@ export default function FriendButton({ otherID }) {
             try {
                 e.preventDefault();
                 const { data } = await axios.post(`/accept-request`, {
+                    otherID,
+                });
+                setText(data.msg);
+            } catch (e) {
+                console.log(e);
+            }
+        } else if (text[0] == "u") {
+            try {
+                e.preventDefault();
+                const { data } = await axios.post(`/unfriend`, {
                     otherID,
                 });
                 setText(data.msg);

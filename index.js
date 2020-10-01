@@ -104,30 +104,26 @@ app.get("/friend-relation/:viewed", async (req, res) => {
     const viewer = req.session.userId;
     const { rows } = await db.getFriendRelation(viewer, viewed);
     if (rows.length < 1) {
-        res.sendStatus(200);
+        res.status(200).json({ msg: "send friend request" });
     } else {
         const isAccepted = rows[0].accepted;
         const sender = rows[0].sender_id;
         const recipient = rows[0].recipient_id;
         if (isAccepted) {
-            res.json({ mgs: "unfriend" });
+            res.status(200).json({ msg: "unfriend" });
         } else {
             if (viewer == sender) {
                 res.status(200).json({ msg: "cancel friend request" });
-            } else {
+            } else if (viewer == recipient) {
                 res.status(200).json({ msg: "accept friend request" });
             }
         }
     }
-    // const isAccepted = rows[0].accepted;
-    console.log(rows);
-    // res.json(isAccepted);
-    console.log(req.params.viewed, req.session.userId, rows);
 });
 
 app.post("/friend-request", async (req, res) => {
-    const recipient_id = req.body.otherID;
     const sender_id = req.session.userId;
+    const recipient_id = req.body.otherID;
     const { rows } = await db.addFriendRequest(sender_id, recipient_id);
     res.json(rows);
 });
@@ -150,6 +146,20 @@ app.post("/accept-request", async (req, res) => {
     try {
         await db.acceptFriendRequest(sender_id, recipient_id);
         res.status(200).json({ msg: "unfriend" });
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+app.post("/unfriend", async (req, res) => {
+    console.error("request");
+    const recipient_id = req.body.otherID;
+    const sender_id = req.session.userId;
+    try {
+        await db.cancelFriendRequest(sender_id, recipient_id);
+        await db.cancelFriendRequest(recipient_id, sender_id);
+        res.status(200).json({ msg: "send friend request" });
     } catch (e) {
         console.error(e);
         res.sendStatus(500);
