@@ -91,10 +91,26 @@ module.exports.getFriendRelation = (id1, id2) => {
     );
 };
 
-module.exports.addFriendRelation = (sender_id, recipient_id) => {
+module.exports.addFriendRequest = (sender_id, recipient_id) => {
     return db.query(
         `INSERT INTO friendships (sender_id, recipient_id) VALUES ($1, $2) returning *`,
         [sender_id, recipient_id]
+    );
+};
+
+module.exports.cancelFriendRequest = (sender_id, recipient_id) => {
+    return db.query(
+        `Delete from friendships WHERE sender_id = $1 AND recipient_id=$2`,
+        [sender_id, recipient_id]
+    );
+};
+
+module.exports.acceptFriendRequest = (sender_id, recipient_id) => {
+    return db.query(
+        `UPDATE friendships
+         SET accepted = $3
+         WHERE sender_id = $1 AND recipient_id = $2`,
+        [sender_id, recipient_id, true]
     );
 };
 

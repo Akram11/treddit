@@ -12,17 +12,43 @@ export default function FriendButton({ otherID }) {
             setText(data.msg || text);
             console.log(data, text);
         })();
-    }, []);
+    }, [text]);
 
     const handleClick = async (e) => {
-        console.log(text[0]);
-        // try {
-        //     e.preventDefault();
-        //     const { data } = await axios.post(`/friend-request`, { otherID });
-        //     setText("CANCEL FRIEND REQUEST");
-        // } catch (e) {
-        //     console.log(e);
-        // }
+        if (text[0] == "s") {
+            try {
+                e.preventDefault();
+                const { data } = await axios.post(`/friend-request`, {
+                    otherID,
+                });
+                setText("CANCEL FRIEND REQUEST");
+            } catch (e) {
+                console.log(e);
+            }
+        } else if (text[0] == "c") {
+            console.log("inside cancel", text[0]);
+            try {
+                e.preventDefault();
+                const { data } = await axios.post(`/cancel-request`, {
+                    otherID,
+                });
+                console.log("dafdfe", data.msg);
+                setText(data.msg);
+                console.log("state", text);
+            } catch (e) {
+                console.log(e);
+            }
+        } else if (text[0] == "a") {
+            try {
+                e.preventDefault();
+                const { data } = await axios.post(`/accept-request`, {
+                    otherID,
+                });
+                setText(data.msg);
+            } catch (e) {
+                console.log(e);
+            }
+        }
     };
 
     return (

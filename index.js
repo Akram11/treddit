@@ -128,9 +128,32 @@ app.get("/friend-relation/:viewed", async (req, res) => {
 app.post("/friend-request", async (req, res) => {
     const recipient_id = req.body.otherID;
     const sender_id = req.session.userId;
-    const { rows } = await db.addFriendRelation(sender_id, recipient_id);
+    const { rows } = await db.addFriendRequest(sender_id, recipient_id);
     res.json(rows);
-    console.log(rows);
+});
+
+app.post("/cancel-request", async (req, res) => {
+    const recipient_id = req.body.otherID;
+    const sender_id = req.session.userId;
+    try {
+        await db.cancelFriendRequest(sender_id, recipient_id);
+        res.status(200).json({ msg: "send friend request" });
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
+});
+
+app.post("/accept-request", async (req, res) => {
+    const sender_id = req.body.otherID;
+    const recipient_id = req.session.userId;
+    try {
+        await db.acceptFriendRequest(sender_id, recipient_id);
+        res.status(200).json({ msg: "unfriend" });
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(500);
+    }
 });
 
 app.get(`/user/:id.json`, async (req, res) => {
