@@ -32,9 +32,8 @@ export default function Friends() {
                 {friends &&
                     // friends.length > 0 &&
                     friends.map((friend) => (
-                        <>
+                        <div key={friend.id}>
                             <UserCard
-                                key={friend.id}
                                 id={friend.id}
                                 first={friend.first}
                                 last={friend.last}
@@ -42,10 +41,14 @@ export default function Friends() {
                                 email={friend.email}
                             />
 
-                            <Button variant="contained" color="primary">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => dispatch(unfriend(friend.id))}
+                            >
                                 unfriend {friend.id}
                             </Button>
-                        </>
+                        </div>
                     ))}
             </div>
             <div>
@@ -53,9 +56,8 @@ export default function Friends() {
                 {wannabes &&
                     // wannabes.length > 0 &&
                     wannabes.map((wannabe) => (
-                        <>
+                        <div key={wannabe.id}>
                             <UserCard
-                                key={wannabe.id}
                                 id={wannabe.id}
                                 first={wannabe.first}
                                 last={wannabe.last}
@@ -71,7 +73,7 @@ export default function Friends() {
                             >
                                 accept request
                             </Button>
-                        </>
+                        </div>
                     ))}
             </div>
         </>
