@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axios";
 import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
 
 export default function FindPeople() {
     const [userInput, setUserInput] = useState("");
@@ -51,6 +52,7 @@ export default function FindPeople() {
                     return (
                         <UserCard
                             key={i}
+                            id={user.id}
                             first={user.first}
                             last={user.last}
                             email={user.email}
@@ -64,19 +66,21 @@ export default function FindPeople() {
     );
 }
 
-function UserCard({ first, last, img_url, bio, email }) {
+function UserCard({ id, first, last, img_url, bio, email }) {
     return (
         <>
-            <img
-                src={
-                    img_url ||
-                    `https://api.adorable.io/avatars/229/${email}@adorable.io.png`
-                }
-            />
-            <h2>
-                {first}
-                {last}
-            </h2>
+            <Link to={`/user/${id}`}>
+                <img
+                    src={
+                        img_url ||
+                        `https://api.adorable.io/avatars/229/${email}@adorable.io.png`
+                    }
+                />
+                <h2>
+                    {first}
+                    {last}
+                </h2>
+            </Link>
             <p>{bio}</p>
         </>
     );

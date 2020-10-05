@@ -13,6 +13,8 @@ const path = require("path");
 const uidSafe = require("uid-safe");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 app.use(express.json());
 app.use(
@@ -125,6 +127,7 @@ app.post("/friend-request", async (req, res) => {
     const sender_id = req.session.userId;
     const recipient_id = req.body.otherID;
     const { rows } = await db.addFriendRequest(sender_id, recipient_id);
+    console.log("/friendRequst", rows);
     res.json(rows);
 });
 
@@ -181,6 +184,21 @@ app.get(`/user/:id.json`, async (req, res) => {
             console.error(e);
             res.sendStatus(500);
         }
+    }
+});
+
+app.get("/get-friends", async (req, res) => {
+    const userId = req.session.userId;
+    console.log(userId);
+    try {
+        const { rows } = await db.getFriends(userId);
+        console.log(rows);
+
+        res.json({
+            users: rows,
+        });
+    } catch (e) {
+        res.status(500).json({ e: "something went wrong in getting friends" });
     }
 });
 
@@ -296,4 +314,11 @@ app.get("*", function (req, res) {
 
 app.listen(8080, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", (socket) => {
+    console.log(`Socket with id ${socket.id} has connected`);
+    socket.on("disconnect", () => {
+        console.log(`Socket with id ${socket.id} has disconnected`);
+    });
 });

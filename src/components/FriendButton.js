@@ -31,7 +31,6 @@ export default function FriendButton({ otherID }) {
                 const { data } = await axios.post(`/cancel-request`, {
                     otherID,
                 });
-                console.log("dafdfe", data.msg);
                 setText(data.msg);
                 console.log("state", text);
             } catch (e) {

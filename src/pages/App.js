@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core/";
 import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "../components/OtherProfile.js";
 import FindPeople from "../components/FindPeople";
+import Friends from "../components/Friends";
 
 export default class App extends Component {
     constructor(props) {
@@ -76,6 +77,9 @@ export default class App extends Component {
                         />
                         <Route path="/users">
                             <FindPeople />
+                        </Route>
+                        <Route path="/friends">
+                            <Friends />
                         </Route>
                     </>
                 </BrowserRouter>

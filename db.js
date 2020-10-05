@@ -66,7 +66,7 @@ module.exports.updateBio = (id, bio) => {
 };
 
 module.exports.getRecentUsers = () => {
-    return db.query(`SELECT first, last, img_url, email,bio FROM users 
+    return db.query(`SELECT id, first, last, email ,img_url, email,bio FROM users 
      ORDER BY id DESC LIMIT 3;
      `);
 };
@@ -74,7 +74,7 @@ module.exports.getRecentUsers = () => {
 module.exports.searchUsers = (q) => {
     return db.query(
         `
-        SELECT first, last, img_url, bio FROM users
+        SELECT id, first, last, email, img_url, bio FROM users
         WHERE first ILIKE $1
         LIMIT 10
         `,
@@ -120,6 +120,20 @@ module.exports.updateFriendship = (sender_id, recipient_id, status) => {
          SET accepted = $3
          WHERE sender_id = $1 AND recipient_id = $2`,
         [sender_id, recipient_id, status]
+    );
+};
+
+module.exports.getFriends = (userId) => {
+    return db.query(
+        `
+          SELECT users.id, first, last, img_url, email ,accepted
+          FROM friendships
+          JOIN users
+          ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+          OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+          OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        `,
+        [userId]
     );
 };
 
