@@ -332,8 +332,9 @@ io.on("connection", async (socket) => {
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows);
 
-    socket.on("new msg", (newMsg) => {
+    socket.on("new msg", async (newMsg) => {
         console.log("this message is coming from chat.js component:", newMsg);
+        await db.addMessage(userId, newMsg);
     });
 
     socket.on("disconnect", () => {

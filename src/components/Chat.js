@@ -7,8 +7,8 @@ import TextField from "@material-ui/core/TextField";
 
 export default function Chat() {
     const elemRef = useRef();
-    // const chatMessages = useSelector((state) => state && state.chatMessages);
-
+    const chatMessages = useSelector((state) => state && state.messages);
+    console.log(chatMessages);
     useEffect(() => {
         // console.log(elemRef);
         // console.log(elemRef.current.scrollTop);
@@ -28,6 +28,12 @@ export default function Chat() {
             <p>this is chat component</p>
             <div className="chat-container" ref={elemRef}>
                 <p>chat boards here</p>
+                {chatMessages &&
+                    chatMessages.map((message) => (
+                        <div key={message.id}>
+                            <p>{message.text}</p>
+                        </div>
+                    ))}
             </div>
             <TextField onKeyDown={keyCheck}></TextField>
         </>

@@ -26,5 +26,13 @@ export default function (state = {}, action) {
             users: state.users.filter((user) => action.id != user.id),
         };
     }
+
+    if (action.type == "RECEIVE_MESSAGES") {
+        console.log("msgs in action", action.msgs);
+        state = {
+            ...state,
+            messages: action.msgs,
+        };
+    }
     return state;
 }

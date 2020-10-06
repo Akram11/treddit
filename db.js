@@ -139,10 +139,27 @@ module.exports.getFriends = (userId) => {
 
 module.exports.getLastMsgs = () => {
     return db.query(`
-        SELECT * FROM messages  ORDER BY id DESC LIMIT 10;
+        SELECT * FROM messages LIMIT 10;
     `);
 };
 
+// module.exports.addMessage = (sender_id, text) => {
+//     return (
+//         db.query(`INSERT INTO messages (sender_id, text)
+//                   VALUES ($2) returning sender_id;
+//         `),
+//         [sender_id, text]
+//     );
+// };
+
+module.exports.addMessage = (sender_id, text) => {
+    return db.query(
+        `INSERT INTO messages (sender_id, text) VALUES ($1, $2)  RETURNING sender_id`,
+        [sender_id, text]
+    );
+};
+
+// `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) returning id`,
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'

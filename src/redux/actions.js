@@ -2,6 +2,7 @@ import axios from "../axios";
 const RECEIVE_FRIENDS = "RECIEVE_FRIENDS";
 const ACCEPT_REQUEST = "ACCEPT_REQUEST";
 const UNFRIEND = "UNFRIEND";
+const RECEIVE_MESSAGES = "RECEIVE_MESSAGES";
 
 export async function recieveFriends() {
     try {
@@ -43,4 +44,11 @@ export async function unfriend(otherID) {
     } catch (e) {
         console.log(e);
     }
+}
+
+export async function receiveMessages(msgs) {
+    return {
+        type: RECEIVE_MESSAGES,
+        msgs,
+    };
 }
