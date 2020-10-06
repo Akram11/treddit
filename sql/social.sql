@@ -34,3 +34,71 @@ CREATE TABLE friendships
     recipient_id INT REFERENCES users(id) NOT NULL,
     accepted BOOLEAN DEFAULT false
 );
+
+DROP TABLE IF EXISTS messages
+CASCADE;
+
+CREATE TABLE messages
+(
+    id SERIAL PRIMARY KEY,
+    sender_id INT REFERENCES users(id) NOT NULL,
+    text VARCHAR NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (1 , 'this is a cool message');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (200 , 'Hi there!');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (201 , 'hi guys, who is online?');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (208 , "who's up for a drink");
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (2 , 'who am I');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (10 , 'do you like my new profile picture');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (15 , 'Please send me an email');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (100 , 'who else likes dark chocolate?');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (150 , 'is it only me or this forum is boring?');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (79 , 'anyone would like to chat?');
+
+INSERT INTO messages
+    (sender_id, text)
+VALUES
+    (11 , 'hi lovely people');

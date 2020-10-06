@@ -137,6 +137,12 @@ module.exports.getFriends = (userId) => {
     );
 };
 
+module.exports.getLastMsgs = () => {
+    return db.query(`
+        SELECT * FROM messages  ORDER BY id DESC LIMIT 10;
+    `);
+};
+
 // SELECT * FROM codes WHERE
 //          email='akram.f11+test@gmail.com'
 //          AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'

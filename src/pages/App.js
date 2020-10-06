@@ -7,6 +7,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import OtherProfile from "../components/OtherProfile.js";
 import FindPeople from "../components/FindPeople";
 import Friends from "../components/Friends";
+import Chat from "../components/Chat";
 
 export default class App extends Component {
     constructor(props) {
@@ -80,6 +81,9 @@ export default class App extends Component {
                         </Route>
                         <Route path="/friends">
                             <Friends />
+                        </Route>
+                        <Route path="/chat">
+                            <Chat />
                         </Route>
                     </>
                 </BrowserRouter>

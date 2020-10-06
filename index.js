@@ -17,12 +17,15 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 app.use(express.json());
-app.use(
-    cookieSession({
-        secret: "TOP SECRET LINE",
-        maxAge: 24 * 60 * 60 * 1000,
-    })
-);
+
+const cookieSessionMiddleware = cookieSession({
+    secret: "TOP SECRET LINE",
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 app.use(function (req, res, next) {
@@ -312,12 +315,27 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening.");
 });
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
     console.log(`Socket with id ${socket.id} has connected`);
+
+    const userId = socket.request.session.userId;
+    if (!userId) return socket.disconnect(true);
+
+    // db.getLastMsgs().then(({ rows }) => {
+    //     console.log("messages", rows);
+
+    // });
+    const { rows } = await db.getLastMsgs();
+    io.sockets.emit("chatMessages", rows);
+
+    socket.on("new msg", (newMsg) => {
+        console.log("this message is coming from chat.js component:", newMsg);
+    });
+
     socket.on("disconnect", () => {
         console.log(`Socket with id ${socket.id} has disconnected`);
     });

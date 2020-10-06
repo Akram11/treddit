@@ -13,7 +13,6 @@ export default function Registration() {
     return (
         <div>
             <h3>Register here:</h3>
-
             <TextField
                 size="small"
                 type="text"
