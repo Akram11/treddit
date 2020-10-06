@@ -139,18 +139,9 @@ module.exports.getFriends = (userId) => {
 
 module.exports.getLastMsgs = () => {
     return db.query(`
-        SELECT * FROM messages ORDER BY id DESC LIMIT 10;
+        SELECT first, last, img_url, messages.id ,sender_id, text, messages.created_at FROM users JOIN messages on users.id = messages.sender_id ORDER BY messages.id DESC LIMIT 10;
     `);
 };
-
-// module.exports.addMessage = (sender_id, text) => {
-//     return (
-//         db.query(`INSERT INTO messages (sender_id, text)
-//                   VALUES ($2) returning sender_id;
-//         `),
-//         [sender_id, text]
-//     );
-// };
 
 module.exports.addMessage = (sender_id, text) => {
     return db.query(
@@ -158,6 +149,14 @@ module.exports.addMessage = (sender_id, text) => {
         [sender_id, text]
     );
 };
+
+module.exports.geSender = (id) => {
+    return db.query(`SELECT first, last, img_url FROM users WHERE id = $1`, [
+        id,
+    ]);
+};
+
+// Select first, last, img_url, sender_id, text, created_at FROM users JOIN messages on users.id = messages.sender_id;
 
 // `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) returning id`,
 // SELECT * FROM codes WHERE

@@ -324,19 +324,16 @@ io.on("connection", async (socket) => {
 
     const userId = socket.request.session.userId;
     if (!userId) return socket.disconnect(true);
-
-    // db.getLastMsgs().then(({ rows }) => {
-    //     console.log("messages", rows);
-
-    // });
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows.reverse());
 
     socket.on("new msg", async (newMsg) => {
         console.log("this message is coming from chat.js component:", newMsg);
         const { rows } = await db.addMessage(userId, newMsg);
-        console.log(rows);
-        io.sockets.emit("addChatMsg", rows[0]);
+        const { rows: senderData } = await db.geSender(userId);
+        const msgInfo = { ...rows[0], ...senderData[0] };
+        console.log(msgInfo);
+        io.sockets.emit("addChatMsg", msgInfo);
     });
 
     socket.on("disconnect", () => {

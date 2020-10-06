@@ -3,17 +3,14 @@ import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 
-// console.log(socket);
-
 export default function Chat() {
     const elemRef = useRef();
     const chatMessages = useSelector((state) => state && state.messages);
-    console.log(chatMessages);
     useEffect(() => {
-        // console.log(elemRef);
-        // console.log(elemRef.current.scrollTop);
         elemRef.current.scrollTop =
-            elemRef.current.scrollHeight - elemRef.current.scrollHeight;
+            elemRef.current.scrollHeight - elemRef.current.clientHeight;
+
+        // elemRef.current.scrollHeight - elemRef.current.clientHeight;
     }, []);
 
     const keyCheck = (e) => {
@@ -26,12 +23,22 @@ export default function Chat() {
     return (
         <>
             <p>this is chat component</p>
-            <div className="chat-container" ref={elemRef}>
-                <p>chat boards here</p>
+            <p>chat boards here</p>
+            <div
+                className="chat-container"
+                ref={elemRef}
+                onScroll={() =>
+                    console.log(
+                        elemRef.current.scrollHeight,
+                        elemRef.current.scrollHeight
+                    )
+                }
+            >
                 {chatMessages &&
                     chatMessages.map((message) => (
                         <div key={message.id}>
-                            <p>{message.text}</p>
+                            {message.first}
+                            <p className="talk-bubble">{message.text}</p>
                         </div>
                     ))}
             </div>
