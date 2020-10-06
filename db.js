@@ -139,7 +139,7 @@ module.exports.getFriends = (userId) => {
 
 module.exports.getLastMsgs = () => {
     return db.query(`
-        SELECT * FROM messages LIMIT 10;
+        SELECT * FROM messages ORDER BY id DESC LIMIT 10;
     `);
 };
 
@@ -154,7 +154,7 @@ module.exports.getLastMsgs = () => {
 
 module.exports.addMessage = (sender_id, text) => {
     return db.query(
-        `INSERT INTO messages (sender_id, text) VALUES ($1, $2)  RETURNING sender_id`,
+        `INSERT INTO messages (sender_id, text) VALUES ($1, $2)  RETURNING *`,
         [sender_id, text]
     );
 };

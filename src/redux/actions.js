@@ -3,6 +3,7 @@ const RECEIVE_FRIENDS = "RECIEVE_FRIENDS";
 const ACCEPT_REQUEST = "ACCEPT_REQUEST";
 const UNFRIEND = "UNFRIEND";
 const RECEIVE_MESSAGES = "RECEIVE_MESSAGES";
+const ADD_MESSAGE = "ADD_MESSAGE";
 
 export async function recieveFriends() {
     try {
@@ -50,5 +51,12 @@ export async function receiveMessages(msgs) {
     return {
         type: RECEIVE_MESSAGES,
         msgs,
+    };
+}
+
+export async function AddchatMessage(msg) {
+    return {
+        type: ADD_MESSAGE,
+        msg,
     };
 }

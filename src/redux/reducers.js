@@ -28,10 +28,17 @@ export default function (state = {}, action) {
     }
 
     if (action.type == "RECEIVE_MESSAGES") {
-        console.log("msgs in action", action.msgs);
         state = {
             ...state,
             messages: action.msgs,
+        };
+    }
+
+    if (action.type == "ADD_MESSAGE") {
+        console.log("new msg in action", action.msg);
+        state = {
+            ...state,
+            messages: [...state.messages, action.msg],
         };
     }
     return state;

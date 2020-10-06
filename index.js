@@ -330,11 +330,13 @@ io.on("connection", async (socket) => {
 
     // });
     const { rows } = await db.getLastMsgs();
-    io.sockets.emit("chatMessages", rows);
+    io.sockets.emit("chatMessages", rows.reverse());
 
     socket.on("new msg", async (newMsg) => {
         console.log("this message is coming from chat.js component:", newMsg);
-        await db.addMessage(userId, newMsg);
+        const { rows } = await db.addMessage(userId, newMsg);
+        console.log(rows);
+        io.sockets.emit("addChatMsg", rows[0]);
     });
 
     socket.on("disconnect", () => {
