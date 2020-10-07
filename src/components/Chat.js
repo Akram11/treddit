@@ -9,9 +9,7 @@ export default function Chat() {
     useEffect(() => {
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
-
-        // elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }, []);
+    }, [chatMessages]);
 
     const keyCheck = (e) => {
         if (e.key === "Enter") {
