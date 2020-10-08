@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 export function useStatefulFields() {
     const [value, setValue] = useState({});
+
     const handleChange = (e) => {
         setValue({
             ...value,

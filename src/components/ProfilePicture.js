@@ -5,12 +5,27 @@ export default function ProfilePicture({
     first,
     last,
     img_url,
-    handleChildSubmit,
+    // handleChildSubmit,
     showModal,
+    width,
+    height,
+    radius,
 }) {
     return (
         <>
-            <img src={img_url} alt={`${first} ${last}`} onClick={showModal} />
+            <div style={{ margin: 10 }}>
+                <img
+                    // width={width || 400}
+                    style={{
+                        width: width || 200,
+                        height: height || 200,
+                        borderRadius: radius || 10,
+                    }}
+                    src={img_url}
+                    alt={`${first} ${last}`}
+                    onClick={showModal}
+                />
+            </div>
         </>
     );
 }

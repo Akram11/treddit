@@ -40,8 +40,8 @@ export default class Profile extends React.Component {
 
     render() {
         return (
-            <>
-                {this.state.bio}
+            <div style={styles.main}>
+                <div>{this.state.bio}</div>
                 {this.props.bio ? (
                     <>
                         <Button
@@ -99,7 +99,17 @@ export default class Profile extends React.Component {
                         </Button>
                     </div>
                 )}
-            </>
+            </div>
         );
     }
 }
+
+const styles = {
+    main: {
+        // backgroundColor: "red",
+        padding: 20,
+        width: "70%",
+        display: "flex",
+        flexDirection: "column",
+    },
+};

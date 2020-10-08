@@ -1,10 +1,18 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import axios from "../axios";
-import TextField from "@material-ui/core/TextField";
+import {
+    TextField,
+    Typography,
+    FormHelperText,
+    InputLabel,
+    InputAdornment,
+    OutlinedInput,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useAuthSubmit } from "../hooks/useAuthSubmit";
-import { useStatefulFields } from "../hooks/useStatefulFields";
+import { useStyles } from "../styles.js";
+// import { useAuthSubmit } from "../hooks/useAuthSubmit";
+// import { useStatefulFields } from "../hooks/useStatefulFields";
 
 export default class Login extends React.Component {
     constructor() {
@@ -35,9 +43,12 @@ export default class Login extends React.Component {
 
     render() {
         let { email, password } = this.state;
+
         return (
             <div>
-                <h3>Register here:</h3>
+                <Typography align="center" variant="h4">
+                    Log in
+                </Typography>
                 {this.state.error && (
                     <p className="error">something went wrong!</p>
                 )}

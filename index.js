@@ -242,6 +242,11 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/register");
+});
+
 app.post("/reset", async (req, res) => {
     const { email } = req.body;
     let { rows } = await db.getUserEmail(email);

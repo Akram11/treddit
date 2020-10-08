@@ -8,6 +8,7 @@ import OtherProfile from "../components/OtherProfile.js";
 import FindPeople from "../components/FindPeople";
 import Friends from "../components/Friends";
 import Chat from "../components/Chat";
+import PrimaryAppBar from "../components/AppBar";
 
 export default class App extends Component {
     constructor(props) {
@@ -15,7 +16,6 @@ export default class App extends Component {
         this.state = {
             showModal: false,
         };
-        // this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     async componentDidMount() {
@@ -39,7 +39,6 @@ export default class App extends Component {
         this.setState({
             bio: bio,
         });
-        console.log("from app", this.state);
     }
 
     render() {
@@ -47,46 +46,57 @@ export default class App extends Component {
 
         if (this.state.id) {
             return (
-                <BrowserRouter>
-                    <>
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <Profile
-                                    id={state.id}
-                                    first={state.first}
-                                    last={state.last}
-                                    img_url={state.img_url}
-                                    bio={state.bio}
-                                    showModal={() =>
-                                        this.setState({ showModal: true })
-                                    }
-                                    setBio={(bio) => this.setBio(bio)}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/user/:id"
-                            render={(props) => (
-                                <OtherProfile
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                />
-                            )}
-                        />
-                        <Route path="/users">
-                            <FindPeople />
-                        </Route>
-                        <Route path="/friends">
-                            <Friends />
-                        </Route>
-                        <Route path="/chat">
-                            <Chat />
-                        </Route>
-                    </>
-                </BrowserRouter>
+                <>
+                    <PrimaryAppBar img_url={state.img_url} />
+                    <BrowserRouter>
+                        <>
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Profile
+                                        id={state.id}
+                                        first={state.first}
+                                        last={state.last}
+                                        img_url={state.img_url}
+                                        bio={state.bio}
+                                        showModal={() =>
+                                            this.setState({ showModal: true })
+                                        }
+                                        setBio={(bio) => this.setBio(bio)}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/user/:id"
+                                render={(props) => (
+                                    <OtherProfile
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
+                            <Route path="/users">
+                                <FindPeople />
+                            </Route>
+                            <Route path="/friends">
+                                <Friends />
+                            </Route>
+                            <Route path="/chat">
+                                <Chat />
+                            </Route>
+                        </>
+                        {state.showModal && (
+                            <Uploader
+                                changeImg={(image) => this.setImage(image)}
+                                close={() =>
+                                    this.setState({ showModal: false })
+                                }
+                            />
+                        )}
+                    </BrowserRouter>
+                </>
             );
         } else {
             return <p>loading </p>;

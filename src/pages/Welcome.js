@@ -7,7 +7,6 @@ import ResetPassword from "../components/ResetPassword";
 export default function Welcome(props) {
     return (
         <>
-            <p>Hello from the welcome page</p>
             <HashRouter>
                 <Route exact path="/" component={Register} />
                 <Route path="/login" component={Login} />
