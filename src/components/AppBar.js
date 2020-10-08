@@ -13,8 +13,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import { Link } from "react-router-dom";
-import axios from "../axios";
 
 export default function PrimaryAppBar({ img_url }) {
     const classes = useStyles();
@@ -27,11 +27,6 @@ export default function PrimaryAppBar({ img_url }) {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
-    };
-
-    const handleLogout = () => {
-        console.log("clicked");
-        axios.get("/logout");
     };
 
     const menuId = "primary-search-account-menu";
@@ -48,7 +43,12 @@ export default function PrimaryAppBar({ img_url }) {
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
             <MenuItem>
-                <a href="/logout">Log out</a>
+                <a
+                    style={{ textDecoration: "none", color: "red" }}
+                    href="/logout"
+                >
+                    Log out
+                </a>
             </MenuItem>
         </Menu>
     );
@@ -57,13 +57,6 @@ export default function PrimaryAppBar({ img_url }) {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
-                    {/* <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                    >
-                        <MenuIcon />
-                    </IconButton> */}
                     <Typography className={classes.title} variant="h6" noWrap>
                         Social Network
                     </Typography>
@@ -82,13 +75,27 @@ export default function PrimaryAppBar({ img_url }) {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton color="inherit">
-                            <Badge badgeContent={2} color="secondary">
+                            <Badge badgeContent={0} color="secondary">
                                 <MailIcon />
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit">
-                            <Badge badgeContent={3} color="secondary">
+                            <Badge badgeContent={0} color="secondary">
                                 <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton color="inherit">
+                            <Badge badgeContent={0} color="secondary">
+                                <Link
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                        paddingTop: 10,
+                                    }}
+                                    to="/chat"
+                                >
+                                    <QuestionAnswerIcon />
+                                </Link>
                             </Badge>
                         </IconButton>
 

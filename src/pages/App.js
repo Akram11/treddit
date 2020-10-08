@@ -9,7 +9,8 @@ import FindPeople from "../components/FindPeople";
 import Friends from "../components/Friends";
 import Chat from "../components/Chat";
 import PrimaryAppBar from "../components/AppBar";
-
+import UserChat from "../components/UserChat";
+import Bar from "../components/Bar";
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -47,9 +48,10 @@ export default class App extends Component {
         if (this.state.id) {
             return (
                 <>
-                    <PrimaryAppBar img_url={state.img_url} />
                     <BrowserRouter>
                         <>
+                            <PrimaryAppBar img_url={state.img_url} />
+                            {/* <Bar /> */}
                             <Route
                                 exact
                                 path="/"
@@ -77,13 +79,24 @@ export default class App extends Component {
                                     />
                                 )}
                             />
+                            {/* <Route
+                                exact
+                                path="/chat/:id"
+                                render={(props) => (
+                                    <UserChat
+                                    // key={props.match.url}
+                                    // match={props.match}
+                                    // history={props.history}
+                                    />
+                                )}
+                            /> */}
                             <Route path="/users">
                                 <FindPeople />
                             </Route>
                             <Route path="/friends">
                                 <Friends />
                             </Route>
-                            <Route path="/chat">
+                            <Route exact path="/chat">
                                 <Chat />
                             </Route>
                         </>

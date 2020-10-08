@@ -9,7 +9,7 @@ export default function Chat() {
     useEffect(() => {
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }, [chatMessages]);
+    }, []);
 
     const keyCheck = (e) => {
         if (e.key === "Enter") {
@@ -20,6 +20,7 @@ export default function Chat() {
     };
     return (
         <>
+            thisis user chat
             <div className="area chat-container" ref={elemRef}>
                 {chatMessages &&
                     chatMessages.map((message) => (

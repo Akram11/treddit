@@ -42,6 +42,7 @@ CREATE TABLE messages
 (
     id SERIAL PRIMARY KEY,
     sender_id INT REFERENCES users(id) NOT NULL,
+    receiver_id INT REFERENCES users(id),
     text VARCHAR NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -49,9 +50,21 @@ CREATE TABLE messages
 
 
 INSERT INTO messages
-    (sender_id, text)
+    (sender_id, receiver_id,text)
 VALUES
-    (1 , 'this is a cool message');
+    (201, 208 , 'hey man whats up');
+INSERT INTO messages
+    (sender_id, receiver_id,text)
+VALUES
+    (201, 208 , 'good you?');
+INSERT INTO messages
+    (sender_id, receiver_id,text)
+VALUES
+    (208, 201 , 'cool');
+INSERT INTO messages
+    (sender_id, receiver_id,text)
+VALUES
+    (208, 201 , 'what u up to?');
 
 INSERT INTO messages
     (sender_id, text)

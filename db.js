@@ -139,7 +139,9 @@ module.exports.getFriends = (userId) => {
 
 module.exports.getLastMsgs = () => {
     return db.query(`
-        SELECT first, last, img_url, messages.id ,sender_id, text, messages.created_at FROM users JOIN messages on users.id = messages.sender_id ORDER BY messages.id DESC LIMIT 10;
+        SELECT first, last, img_url, messages.id ,sender_id, text, messages.created_at 
+        FROM users JOIN messages on users.id = messages.sender_id
+        WHERE messages.receiver_id IS NULL ORDER BY messages.id DESC LIMIT 10;
     `);
 };
 
@@ -150,7 +152,7 @@ module.exports.addMessage = (sender_id, text) => {
     );
 };
 
-module.exports.geSender = (id) => {
+module.exports.getSender = (id) => {
     return db.query(`SELECT first, last, img_url FROM users WHERE id = $1`, [
         id,
     ]);

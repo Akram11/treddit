@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import ProfilePicture from "./ProfilePicture";
 import BioEditor from "./BioEditor.js";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Paper } from "@material-ui/core";
 
 export default function Profile({ ...props }) {
     let { first, last, bio, img_url, showModal, setBio } = props;
@@ -20,7 +20,7 @@ export default function Profile({ ...props }) {
                         {first} {last}
                     </Typography>
                 </div>
-                <BioEditor bio={bio} setBio={setBio} />
+                <BioEditor bio={bio} setBio={setBio} showEdit={true} />
             </div>
         </>
     );
@@ -28,7 +28,7 @@ export default function Profile({ ...props }) {
 
 // function ProfileContent() {}
 const style = {
-    width: "30%",
+    width: 250,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",

@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core/";
+import { Button, Typography } from "@material-ui/core/";
 import axios from "../axios";
 
 export default class Profile extends React.Component {
@@ -9,9 +9,10 @@ export default class Profile extends React.Component {
 
         this.state = {
             textFieldVisible: false,
-            bio: props.bio || "No Bio yet",
+            bio: props.bio,
             setBio: props.setBio,
             showTextField: false,
+            buttonText: props.bio ? "Edit Bio" : "Add Bio",
         };
     }
 
@@ -33,39 +34,31 @@ export default class Profile extends React.Component {
         console.log(res);
         this.setState({
             bio: res.data.bio,
+            buttonText: "Edit Bio",
             showTextField: false,
         });
         this.setBio(this.state.bio);
     }
 
     render() {
+        const bio = this.props.bio;
         return (
             <div style={styles.main}>
-                <div>{this.state.bio}</div>
-                {this.props.bio ? (
-                    <>
+                <div>
+                    <Typography>{this.state.bio || "No Bio yet"}</Typography>
+                    {this.props.showEdit && (
                         <Button
+                            size="small"
                             color="primary"
                             onClick={(e) =>
                                 this.setState({ showTextField: true })
                             }
                         >
-                            Edit
+                            {this.state.buttonText}
                         </Button>
-                    </>
-                ) : (
-                    <>
-                        <Button
-                            color="primary"
-                            onClick={(e) =>
-                                this.setState({ showTextField: true })
-                            }
-                        >
-                            Add a Bio
-                        </Button>
-                    </>
-                )}
-                {this.state.Bio}
+                    )}
+                </div>
+                {/* {this.state.Bio} */}
                 {this.state.showTextField && (
                     <div>
                         <TextField
@@ -78,7 +71,8 @@ export default class Profile extends React.Component {
                             label="Bio"
                             style={{ margin: 0 }}
                             placeholder={
-                                "Tell us more about yourself!" || this.state.bio
+                                "Say Something about yourself!" ||
+                                this.state.bio
                             }
                             // helperText="Tell us more about yourself!"
                             fullWidth
@@ -92,7 +86,7 @@ export default class Profile extends React.Component {
                         />
                         <Button
                             color="primary"
-                            variant="contained"
+                            // variant="contained"
                             onClick={(e) => this.handleSubmit(e)}
                         >
                             save
@@ -111,5 +105,7 @@ const styles = {
         width: "70%",
         display: "flex",
         flexDirection: "column",
+        alightItems: "space-between",
+        justifyContent: "space-between",
     },
 };

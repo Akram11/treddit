@@ -84,6 +84,24 @@ app.get("/user", async (req, res) => {
     }
 });
 
+app.get(`/user/:id.json`, async (req, res) => {
+    if (req.session.userId == req.params.id) {
+        res.json({ redirect: true });
+    } else {
+        try {
+            const user = await db.getUser(req.params.id);
+            if (user.rows.length > 0) {
+                res.status(200).json(user.rows[0]);
+            } else {
+                res.json({ redirect: true });
+            }
+        } catch (e) {
+            console.error(e);
+            res.sendStatus(500);
+        }
+    }
+});
+
 app.get("/get-people", async (req, res) => {
     try {
         const { rows } = await db.getRecentUsers();
@@ -169,24 +187,6 @@ app.post("/unfriend", async (req, res) => {
     } catch (e) {
         console.error(e);
         res.sendStatus(500);
-    }
-});
-
-app.get(`/user/:id.json`, async (req, res) => {
-    if (req.session.userId == req.params.id) {
-        res.json({ redirect: true });
-    } else {
-        try {
-            const user = await db.getUser(req.params.id);
-            if (user.rows.length > 0) {
-                res.status(200).json(user.rows[0]);
-            } else {
-                res.json({ redirect: true });
-            }
-        } catch (e) {
-            console.error(e);
-            res.sendStatus(500);
-        }
     }
 });
 
@@ -335,7 +335,7 @@ io.on("connection", async (socket) => {
     socket.on("new msg", async (newMsg) => {
         console.log("this message is coming from chat.js component:", newMsg);
         const { rows } = await db.addMessage(userId, newMsg);
-        const { rows: senderData } = await db.geSender(userId);
+        const { rows: senderData } = await db.getSender(userId);
         const msgInfo = { ...rows[0], ...senderData[0] };
         console.log(msgInfo);
         io.sockets.emit("addChatMsg", msgInfo);
