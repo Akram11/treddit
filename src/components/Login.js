@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import axios from "../axios";
+
 import {
     TextField,
     Typography,
@@ -45,7 +46,14 @@ export default class Login extends React.Component {
         let { email, password } = this.state;
 
         return (
-            <div>
+            <div
+                style={{
+                    width: 500,
+                    padding: "50px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
                 <Typography align="center" variant="h4">
                     Log in
                 </Typography>

@@ -158,6 +158,16 @@ module.exports.getSender = (id) => {
     ]);
 };
 
+module.exports.getUserChat = (id, otherID) => {
+    return db.query(
+        `SELECT * from messages WHERE
+        (sender_id = $2 AND receiver_ID = $1) OR 
+        (sender_id = $1 AND receiver_ID = $2) ORDER BY messages.id DESC`,
+        [id, otherID]
+    );
+};
+// users.id, users.first, users.last, users.img_url, users.email , messages.text, messages.created_at
+
 // Select first, last, img_url, sender_id, text, created_at FROM users JOIN messages on users.id = messages.sender_id;
 
 // `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) returning id`,

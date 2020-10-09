@@ -10,7 +10,7 @@ import Friends from "../components/Friends";
 import Chat from "../components/Chat";
 import PrimaryAppBar from "../components/AppBar";
 import UserChat from "../components/UserChat";
-import Bar from "../components/Bar";
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -79,17 +79,17 @@ export default class App extends Component {
                                     />
                                 )}
                             />
-                            {/* <Route
+                            <Route
                                 exact
                                 path="/chat/:id"
                                 render={(props) => (
                                     <UserChat
-                                    // key={props.match.url}
-                                    // match={props.match}
-                                    // history={props.history}
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
                                     />
                                 )}
-                            /> */}
+                            />
                             <Route path="/users">
                                 <FindPeople />
                             </Route>

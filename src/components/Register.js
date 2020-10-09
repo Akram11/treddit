@@ -83,6 +83,7 @@ export default function Registration() {
                     <OutlinedInput
                         required
                         id="outlined-adornment-password"
+                        name="password"
                         type={show ? "text" : "password"}
                         onChange={handleChange}
                         endAdornment={

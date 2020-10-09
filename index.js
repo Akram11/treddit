@@ -102,6 +102,11 @@ app.get(`/user/:id.json`, async (req, res) => {
     }
 });
 
+app.get("/chat/:id.json", async (req, res) => {
+    const { rows } = await db.getUserChat(req.params.id, req.session.userId);
+    res.status(200).json(rows.reverse());
+});
+
 app.get("/get-people", async (req, res) => {
     try {
         const { rows } = await db.getRecentUsers();

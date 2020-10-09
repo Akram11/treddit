@@ -41,5 +41,16 @@ export default function (state = {}, action) {
             messages: [...state.messages, action.msg],
         };
     }
+
+    if (action.type == "RECEIVE_USER_CHAT") {
+        console.log(action);
+        state = {
+            ...state,
+            chats: {
+                [action.id]: [...action.data],
+            },
+        };
+    }
+
     return state;
 }

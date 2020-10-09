@@ -1,5 +1,9 @@
 import * as io from "socket.io-client";
-import { receiveMessages, AddchatMessage } from "./redux/actions";
+import {
+    receiveMessages,
+    AddchatMessage,
+    AddchatUserMessage,
+} from "./redux/actions";
 export let socket;
 export const init = (store) => {
     if (!socket) {
@@ -8,8 +12,11 @@ export const init = (store) => {
             store.dispatch(receiveMessages(msgs));
         });
         socket.on("addChatMsg", (msg) => {
-            console.log("this is the new msg in socket", msg);
             store.dispatch(AddchatMessage(msg));
+        });
+
+        socket.on("new chat message", (msg) => {
+            store.dispatch(AddchatUserMessage(msg));
         });
     }
 };

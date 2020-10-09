@@ -14,6 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import PeopleIcon from "@material-ui/icons/People";
 import { Link } from "react-router-dom";
 
 export default function PrimaryAppBar({ img_url }) {
@@ -60,7 +61,7 @@ export default function PrimaryAppBar({ img_url }) {
                     <Typography className={classes.title} variant="h6" noWrap>
                         Social Network
                     </Typography>
-                    <div className={classes.search}>
+                    {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
                         </div>
@@ -71,12 +72,21 @@ export default function PrimaryAppBar({ img_url }) {
                                 input: classes.inputInput,
                             }}
                         />
-                    </div>
+                    </div> */}
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton color="inherit">
                             <Badge badgeContent={0} color="secondary">
-                                <MailIcon />
+                                <Link
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "inherit",
+                                        paddingTop: 10,
+                                    }}
+                                    to="/users"
+                                >
+                                    <PeopleIcon />
+                                </Link>
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit">

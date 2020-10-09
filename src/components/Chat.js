@@ -20,17 +20,30 @@ export default function Chat() {
     };
     return (
         <>
-            <div className="area chat-container" ref={elemRef}>
-                {chatMessages &&
-                    chatMessages.map((message) => (
-                        <div key={message.id}>
-                            <p className="talk-bubble">
-                                {message.first}:{message.text}
-                            </p>
-                        </div>
-                    ))}
+            <div className="chat-area">
+                <div className=" chat-container" ref={elemRef}>
+                    {chatMessages &&
+                        chatMessages.map((message) => (
+                            <div key={message.id}>
+                                <p className="talk-bubble">
+                                    {message.first}:{message.text}
+                                </p>
+                            </div>
+                        ))}
+
+                    <div className="chat-input">
+                        <TextField
+                            size={"medium"}
+                            autoFocus
+                            // margin={"dense"}
+                            // variant={fill}
+                            fullWidth
+                            variant="outlined"
+                            onKeyDown={keyCheck}
+                        ></TextField>
+                    </div>
+                </div>
             </div>
-            <TextField fullWidth onKeyDown={keyCheck}></TextField>
         </>
     );
 }

@@ -18,9 +18,10 @@ main {
     display: flex;
     flex-direction: column;
     overflow: auto;
-    width: 100%;
-    height: 200px;
+    width: 90%;
+    height: 85vh;
     overflow-y: scroll;
+    margin-left: 50px;
 }
 
 .talk-bubble {
@@ -28,13 +29,26 @@ main {
     width: -moz-fit-content;
     width: fit-content;
     min-width: 100px;
+    background-color: azure;
     margin: 5px;
-    padding: 5px;
+    padding: 10px;
     display: inline-block;
     height: auto;
     border-radius: 10px;
     max-width: 75%;
     box-shadow: 1px 1px 1px 1px #ccc;
+}
+
+/* .chat-area {
+    display: "flex";
+    flex-direction: row;
+    background-color: "red";
+    width: 1000px;
+} */
+
+.chat-input {
+    justify-self: flex-end;
+    width: 90%;
 }
 
 /* /////////////SCROLL BAR////// */
