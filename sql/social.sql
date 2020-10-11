@@ -82,7 +82,16 @@ CREATE TABLE offers
 -- VALUES
 --     (208, 'baby sitter', 'I can offer baby sitting for children above the age of 2', 1, 'prenzlauer berg');
 
+-- INSERT INTO offers
+--     (creator_id, title, text, price, location)
+-- VALUES
+--     (201, 'code review', 'if you are learning coding and need support, I can help you reviewing your repos', 1, 'Kreuzberg');
 
+
+-- INSERT INTO offers
+--     (creator_id, title, text, price, location)
+-- VALUES
+--     (205, 'cooking lesson', 'I can show how to cook a decent meal', 1, 'Wedding');
 
 -- INSERT INTO messages
 --     (sender_id, receiver_id,text)
