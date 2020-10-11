@@ -38,7 +38,7 @@ module.exports.getCode = (email) => {
 
 module.exports.getUser = (id) => {
     return db.query(
-        `SELECT id, first, last, email, img_url, bio FROM users WHERE id = $1`,
+        `SELECT id, first, last, credits ,email, img_url, bio FROM users WHERE id = $1`,
         [id]
     );
 };

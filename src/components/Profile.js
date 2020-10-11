@@ -5,7 +5,7 @@ import BioEditor from "./BioEditor.js";
 import { Button, Typography, Paper } from "@material-ui/core";
 
 export default function Profile({ ...props }) {
-    let { first, last, bio, img_url, showModal, setBio } = props;
+    let { first, last, bio, img_url, showModal, setBio, credits } = props;
     return (
         <>
             <div style={maintStyle}>
@@ -19,6 +19,9 @@ export default function Profile({ ...props }) {
                     <Typography variant="h5">
                         {first} {last}
                     </Typography>
+                    <Typography variant="subtitle2">
+                        Credits-balance: {credits}
+                    </Typography>
                 </div>
                 <BioEditor bio={bio} setBio={setBio} showEdit={true} />
             </div>
@@ -26,7 +29,6 @@ export default function Profile({ ...props }) {
     );
 }
 
-// function ProfileContent() {}
 const style = {
     width: 250,
     display: "flex",

@@ -58,8 +58,8 @@ export default function PrimaryAppBar({ img_url }) {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Social Network
+                    <Typography className={classes.title} variant="h4" noWrap>
+                        Treddit
                     </Typography>
                     {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -79,9 +79,7 @@ export default function PrimaryAppBar({ img_url }) {
                             <Badge badgeContent={0} color="secondary">
                                 <Link
                                     style={{
-                                        textDecoration: "none",
                                         color: "inherit",
-                                        paddingTop: 10,
                                     }}
                                     to="/users"
                                 >
@@ -91,7 +89,14 @@ export default function PrimaryAppBar({ img_url }) {
                         </IconButton>
                         <IconButton color="inherit">
                             <Badge badgeContent={0} color="secondary">
-                                <NotificationsIcon />
+                                <Link
+                                    style={{
+                                        color: "inherit",
+                                    }}
+                                    to=""
+                                >
+                                    <NotificationsIcon />
+                                </Link>
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit">
@@ -100,7 +105,6 @@ export default function PrimaryAppBar({ img_url }) {
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
-                                        paddingTop: 10,
                                     }}
                                     to="/chat"
                                 >
@@ -139,10 +143,11 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(4),
     },
     title: {
         display: "none",
+        marginLeft: theme.spacing(4),
         [theme.breakpoints.up("sm")]: {
             display: "block",
         },
@@ -182,10 +187,10 @@ const useStyles = makeStyles((theme) => ({
             width: "20ch",
         },
     },
-    sectionDesktop: {
-        display: "none",
-        [theme.breakpoints.up("md")]: {
-            display: "flex",
-        },
-    },
+    // sectionDesktop: {
+    //     display: "none",
+    //     [theme.breakpoints.up("md")]: {
+    //         display: "flex",
+    //     },
+    // },
 }));

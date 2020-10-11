@@ -62,6 +62,7 @@ export default class App extends Component {
                                         last={state.last}
                                         img_url={state.img_url}
                                         bio={state.bio}
+                                        credits={state.credits}
                                         showModal={() =>
                                             this.setState({ showModal: true })
                                         }
