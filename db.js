@@ -166,6 +166,10 @@ module.exports.getUserChat = (id, otherID) => {
         [id, otherID]
     );
 };
+
+module.exports.getOffers = () => {
+    return db.query(`SELECT * from offers ORDER BY offers.id`);
+};
 // users.id, users.first, users.last, users.img_url, users.email , messages.text, messages.created_at
 
 // Select first, last, img_url, sender_id, text, created_at FROM users JOIN messages on users.id = messages.sender_id;
