@@ -337,8 +337,9 @@ io.on("connection", async (socket) => {
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows.reverse());
 
-    const { rows } = await db.getOffers();
-    io.sockets.emit("offers", rows.reverse());
+    const { rows: offers } = await db.getOffers();
+    io.sockets.emit("offers", offers.reverse());
+    console.log("offers", offers);
 
     socket.on("new msg", async (newMsg) => {
         console.log("this message is coming from chat.js component:", newMsg);

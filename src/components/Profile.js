@@ -2,6 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import ProfilePicture from "./ProfilePicture";
 import BioEditor from "./BioEditor.js";
+import OffersList from "./OffersList";
 import { Button, Typography, Paper } from "@material-ui/core";
 
 export default function Profile({ ...props }) {
@@ -22,8 +23,10 @@ export default function Profile({ ...props }) {
                     <Typography variant="subtitle2">
                         Credits-balance: {credits}
                     </Typography>
+                    <BioEditor bio={bio} setBio={setBio} showEdit={true} />
                 </div>
-                <BioEditor bio={bio} setBio={setBio} showEdit={true} />
+
+                <OffersList />
             </div>
         </>
     );
