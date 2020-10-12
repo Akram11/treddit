@@ -317,6 +317,11 @@ app.post("/bio", async (req, res) => {
     }
 });
 
+app.post("/add-offer", async (req, res) => {
+    const { title, text, price, location } = req.body;
+    console.log(title, text, price, location);
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -338,16 +343,32 @@ io.on("connection", async (socket) => {
     io.sockets.emit("chatMessages", rows.reverse());
 
     const { rows: offers } = await db.getOffers();
-    io.sockets.emit("offers", offers.reverse());
-    console.log("offers", offers);
+    io.sockets.emit("offers", offers);
 
     socket.on("new msg", async (newMsg) => {
-        console.log("this message is coming from chat.js component:", newMsg);
         const { rows } = await db.addMessage(userId, newMsg);
         const { rows: senderData } = await db.getSender(userId);
         const msgInfo = { ...rows[0], ...senderData[0] };
         console.log(msgInfo);
         io.sockets.emit("addChatMsg", msgInfo);
+    });
+
+    socket.on("new offer", async (value) => {
+        const { title, text, price, location } = value;
+        const { rows: offer } = await db.addOffer(
+            userId,
+            title,
+            text,
+            price,
+            location
+        );
+        const { rows: creatorData } = await db.getSender(userId);
+        const offerInfo = { ...offer[0], ...creatorData[0] };
+        io.sockets.emit("addOffer", offerInfo);
+        // const { rows: senderData } = await db.getSender(userId);
+        // const msgInfo = { ...rows[0], ...senderData[0] };
+        // console.log(msgInfo);
+        // io.sockets.emit("addChatMsg", msgInfo);
     });
 
     socket.on("disconnect", () => {

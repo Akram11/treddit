@@ -4,6 +4,7 @@ import {
     AddchatMessage,
     AddchatUserMessage,
     receiveOffer,
+    addOffer,
 } from "./redux/actions";
 export let socket;
 export const init = (store) => {
@@ -22,6 +23,11 @@ export const init = (store) => {
 
         socket.on("new chat message", (msg) => {
             store.dispatch(AddchatUserMessage(msg));
+        });
+
+        socket.on("addOffer", (offer) => {
+            console.log(offer);
+            store.dispatch(addOffer(offer));
         });
     }
 };

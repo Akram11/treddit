@@ -7,6 +7,7 @@ const ADD_MESSAGE = "ADD_MESSAGE";
 const RECEIVE_USER_CHAT = "RECEIVE_USER_CHAT";
 const ADD_CHAT_USER_MESSAGE = "ADD_CHAT_USER_MESSAGE";
 const RECEIVE_OFFERS = "RECEIVE_OFFERS";
+const ADD_OFFER = "ADD_OFFER";
 
 export async function recieveFriends() {
     try {
@@ -68,6 +69,13 @@ export async function AddchatMessage(msg) {
     return {
         type: ADD_MESSAGE,
         msg,
+    };
+}
+
+export async function addOffer(offer) {
+    return {
+        type: ADD_OFFER,
+        offer,
     };
 }
 

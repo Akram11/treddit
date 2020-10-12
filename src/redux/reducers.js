@@ -41,6 +41,13 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type == "ADD_OFFER") {
+        state = {
+            ...state,
+            offers: [action.offer, ...state.offers],
+        };
+    }
+
     if (action.type == "ADD_MESSAGE") {
         console.log("new msg in action", action.msg);
         state = {

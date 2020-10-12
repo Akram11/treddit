@@ -10,6 +10,7 @@ import Friends from "../components/Friends";
 import Chat from "../components/Chat";
 import PrimaryAppBar from "../components/AppBar";
 import UserChat from "../components/UserChat";
+import AddOffer from "../components/AddOffer";
 
 export default class App extends Component {
     constructor(props) {
@@ -93,6 +94,9 @@ export default class App extends Component {
                             />
                             <Route path="/users">
                                 <FindPeople />
+                            </Route>
+                            <Route path="/add-offer">
+                                <AddOffer />
                             </Route>
                             <Route path="/friends">
                                 <Friends />

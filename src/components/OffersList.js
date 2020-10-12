@@ -5,12 +5,11 @@ import OfferCard from "./OfferCard";
 
 export default function OffersList() {
     const offers = useSelector((state) => state && state.offers);
-    console.log(offers && `offers from offersList ${offers[0].img_url}`);
+    console.log(offers);
 
     return (
         <>
             <div>
-                this is offers
                 {offers &&
                     offers.map((offer, i) => {
                         return (

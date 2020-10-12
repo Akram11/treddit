@@ -12,7 +12,6 @@ export default function ProfilePicture({
     radius,
     email,
 }) {
-    console.log(email);
     img_url =
         img_url ||
         `https://api.adorable.io/avatars/200/${email}@adorable.io.png`;
@@ -20,7 +19,6 @@ export default function ProfilePicture({
         <>
             <div style={{ margin: 10 }}>
                 <img
-                    // width={width || 400}
                     style={{
                         width: width || 200,
                         height: height || 200,
