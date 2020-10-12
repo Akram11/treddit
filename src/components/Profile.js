@@ -36,7 +36,7 @@ const style = {
     width: 250,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
 };
 

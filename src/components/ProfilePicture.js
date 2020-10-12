@@ -10,7 +10,12 @@ export default function ProfilePicture({
     width,
     height,
     radius,
+    email,
 }) {
+    console.log(email);
+    img_url =
+        img_url ||
+        `https://api.adorable.io/avatars/200/${email}@adorable.io.png`;
     return (
         <>
             <div style={{ margin: 10 }}>
