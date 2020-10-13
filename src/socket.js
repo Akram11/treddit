@@ -35,9 +35,20 @@ export const init = (store) => {
             store.dispatch(addOffer(offer));
         });
 
-        socket.on("changeOffer", (offerId, buyer_id, status) => {
-            console.log("made it to sockets", offerId, buyer_id, status);
-            store.dispatch(changeOffer(offerId, buyer_id, status));
-        });
+        socket.on(
+            "changeOffer",
+            (offerId, buyerId, status, treddits, creatorId) => {
+                console.log(
+                    "made it to sockets",
+                    offerId,
+                    buyerId,
+                    status,
+                    treddits
+                );
+                store.dispatch(
+                    changeOffer(offerId, buyerId, status, treddits, creatorId)
+                );
+            }
+        );
     }
 };

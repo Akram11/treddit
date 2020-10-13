@@ -5,16 +5,19 @@ import { Link, Redirect } from "react-router-dom";
 import { useStatefulFields } from "../hooks/useStatefulFields";
 import { useStyles } from "../styles.js";
 import { socket } from "../socket";
+import { useSelector } from "react-redux";
 
 export default function AddOffer() {
+    // const users = useSelector((state) => state && state.users);
+    //    CHECK IF THE USER HAS ENOUGH TREDITS TO CREATE AN OFFER
     const classes = useStyles();
-    const [show, setShow] = useState(false);
+    // const [show, setShow] = useState(false);
     const [value, handleChange] = useStatefulFields();
     // const [error, handleSubmit] = useAuthSubmit("/add-offer", value);
 
     const handleSubmit = () => {
         socket.emit("new offer", value);
-        location.replace("/");
+        location.replace("/profile");
     };
     return (
         <div className={classes.formContainer}>

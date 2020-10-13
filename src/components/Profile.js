@@ -20,9 +20,10 @@ export default function Profile({ ...props }) {
     const allOffers = useSelector((state) => state && state.offers);
     let offers =
         allOffers && allOffers.filter((offer) => offer.creator_id == userId);
-    console.log("OFFERs", offers);
-    console.log("ALLOFFERS", allOffers);
-
+    // const users = useSelector((state) => state && state.users);
+    // const user = users && users.filter((user) => user.id == userId);
+    // let currentUser = user && user[0];
+    // console.log("USER", userId, currentUser && currentUser);
     return (
         <>
             <Paper>
@@ -38,7 +39,7 @@ export default function Profile({ ...props }) {
                             {first} {last}
                         </Typography>
                         <Typography align="center" variant="subtitle2">
-                            Credits-balance: {credits}
+                            credits balance: {credits}
                         </Typography>
                     </div>
                     <div>

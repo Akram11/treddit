@@ -203,6 +203,14 @@ module.exports.updateOffer = (offerId, userId, value) => {
     );
 };
 
+module.exports.updateBalance = (value, userId) => {
+    console.log(value);
+    return db.query(` UPDATE users SET credits=credits + $1 WHERE id=$2`, [
+        value,
+        userId,
+    ]);
+};
+
 // just a comment
 // users.id, users.first, users.last, users.img_url, users.email , messages.text, messages.created_at
 

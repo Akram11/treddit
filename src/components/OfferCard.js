@@ -33,16 +33,17 @@ export default function OfferCard({
     credits,
     userId,
 }) {
-    const users = useSelector((state) => state && state.users);
+    // const users = useSelector((state) => state && state.users);
 
     const classes = useStyles();
     const handleRequest = () => {
-        if (treddits > 0) {
+        if (credits >= treddits) {
             socket.emit(
                 "make an offer request",
                 offerId,
                 creatorId,
                 userId,
+                treddits,
                 "done"
             );
         }
@@ -87,11 +88,11 @@ export default function OfferCard({
                     <ChatBubbleIcon color="primary" />
                 </IconButton>
                 <IconButton
-                    disabled={credits > 0 ? false : true}
+                    disabled={credits >= treddits ? false : true}
                     onClick={handleRequest}
                 >
                     <PanToolIcon
-                        color={credits > 0 ? "secondary" : "disabled"}
+                        color={credits >= treddits ? "secondary" : "disabled"}
                     />
                 </IconButton>
                 <Typography> {status}</Typography>

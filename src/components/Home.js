@@ -5,6 +5,7 @@ import BioEditor from "./BioEditor.js";
 import OffersList from "./OffersList";
 import { Button, Typography, Paper } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Profile({ ...props }) {
     let {
@@ -39,6 +40,21 @@ export default function Profile({ ...props }) {
                         <Typography align="center" variant="subtitle2">
                             Credits-balance: {credits}
                         </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            // onClick={() => location.replace("/add-offer")}
+                        >
+                            <Link
+                                to="/add-offer"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "white",
+                                }}
+                            >
+                                add an offer
+                            </Link>
+                        </Button>
                     </div>
 
                     <OffersList

@@ -70,16 +70,29 @@ export default function (state = {}, action) {
             },
         };
     }
-
+    // offerId, buyerId, status, treddits, creatorId;
     if (action.type === "MAKE_OFFER_REQUEST") {
         state = {
             ...state,
+            users: state.users.map((user) => {
+                if (user.id == action.buyerId) {
+                    return {
+                        ...user,
+                        credits: user.credits - action.treddits,
+                    };
+                } else if (user.id == action.creatorId) {
+                    return {
+                        ...user,
+                        credits: user.credits + action.treddits,
+                    };
+                }
+            }),
             offers: state.offers.map((offer) => {
                 if (action.offerId == offer.id) {
                     return {
                         ...offer,
                         status: action.status,
-                        buyer_id: action.buyer_id,
+                        buyer_id: action.buyerId,
                     };
                 } else {
                     return offer;

@@ -364,19 +364,28 @@ io.on("connection", async (socket) => {
 
     socket.on(
         "make an offer request",
-        async (offerId, creatorId, userId, value) => {
+        async (offerId, creatorId, userId, treddits, value) => {
             console.log(offerId, creatorId, userId, value);
             const { rows: changedOffer } = await db.updateOffer(
                 offerId,
                 userId,
                 value
             );
+            await db.updateBalance(-treddits, userId);
+            await db.updateBalance(treddits, creatorId);
+            // const { rows: creatorBalance } = await db.updateBalance(
+            //     treddits,
+            //     userId
+            // );
+
             console.log(changedOffer[0].status, changedOffer);
             io.sockets.emit(
                 "changeOffer",
                 offerId,
                 changedOffer[0].buyer_id,
-                changedOffer[0].status
+                changedOffer[0].status,
+                treddits,
+                creatorId
             );
         }
     );
