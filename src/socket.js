@@ -5,6 +5,7 @@ import {
     AddchatUserMessage,
     receiveOffer,
     addOffer,
+    receiveUsers,
 } from "./redux/actions";
 export let socket;
 export const init = (store) => {
@@ -19,6 +20,10 @@ export const init = (store) => {
         });
         socket.on("addChatMsg", (msg) => {
             store.dispatch(AddchatMessage(msg));
+        });
+
+        socket.on("receiveUsers", (users) => {
+            store.dispatch(receiveUsers(users));
         });
 
         socket.on("new chat message", (msg) => {

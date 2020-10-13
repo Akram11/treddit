@@ -14,6 +14,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ProfilePicture from "./ProfilePicture";
 import PanToolIcon from "@material-ui/icons/PanTool";
+import { useSelector } from "react-redux";
 import socket from "../socket";
 
 export default function OfferCard({
@@ -29,11 +30,17 @@ export default function OfferCard({
     treddits,
     email,
     creatorId,
+    credits,
 }) {
+    const state = useSelector((state) => state && state);
+
+    console.log("state", state);
     const classes = useStyles();
     const handleRequest = (creatorId) => {
-        // socket.emit("new request", id);
         console.log("new request", creatorId);
+        if (treddits > 0) {
+            socket.emit("new request", id);
+        }
     };
 
     console.log(typeof date);
@@ -73,12 +80,18 @@ export default function OfferCard({
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton>
-                    <ChatBubbleIcon color="secondary" />
+                    <ChatBubbleIcon color="primary" />
                 </IconButton>
-                <IconButton onClick={() => handleRequest(creatorId)}>
-                    <PanToolIcon color="primary" />
+                <IconButton
+                    disabled={credits > 0 ? false : true}
+                    onClick={() => handleRequest(creatorId)}
+                >
+                    <PanToolIcon
+                        color={credits > 0 ? "secondary" : "disabled"}
+                    />
                 </IconButton>
-                {status}
+                <Typography> {status}</Typography>
+
                 <Typography className={classes.cost}>
                     treddits: {treddits}
                 </Typography>

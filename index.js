@@ -339,31 +339,22 @@ io.on("connection", async (socket) => {
 
     const userId = socket.request.session.userId;
     if (!userId) return socket.disconnect(true);
+
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows.reverse());
 
     const { rows: offers } = await db.getOffers();
-    // for (const offer in offers) {
-    // console.log(offers[0].created_at);
-    // }
-    let [month, date, year] = rows[0].created_at
-        .toLocaleDateString()
-        .split("/");
-
-    rows[0].created_at = `${date}.${month}.${year}`;
-
     offers.map((offer) => {
-        // let [month, date, year] = offer.created_at
-        //     .toLocaleDateString()
-        //     .split("/");
         offer.created_at = offer.created_at
             .toLocaleDateString()
             .split("/")
             .join(".");
     });
-
-    console.log(rows[0].created_at);
     io.sockets.emit("offers", offers);
+
+    const { rows: users } = await db.getAllUsers();
+    console.log(users);
+    io.sockets.emit("receiveUsers", users);
 
     socket.on("new msg", async (newMsg) => {
         const { rows } = await db.addMessage(userId, newMsg);

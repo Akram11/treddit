@@ -27,7 +27,7 @@ export default function Profile({ ...props }) {
                         <BioEditor bio={bio} setBio={setBio} showEdit={true} />
                     </div>
 
-                    <OffersList />
+                    <OffersList credits={credits} />
                 </div>
             </Paper>
         </>

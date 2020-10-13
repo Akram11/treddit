@@ -71,6 +71,12 @@ module.exports.getRecentUsers = () => {
      `);
 };
 
+module.exports.getAllUsers = () => {
+    return db.query(`SELECT id, first, last, email, credits ,img_url, bio FROM users 
+     ORDER BY id;
+     `);
+};
+
 module.exports.searchUsers = (q) => {
     return db.query(
         `

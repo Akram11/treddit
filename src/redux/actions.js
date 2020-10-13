@@ -8,11 +8,11 @@ const RECEIVE_USER_CHAT = "RECEIVE_USER_CHAT";
 const ADD_CHAT_USER_MESSAGE = "ADD_CHAT_USER_MESSAGE";
 const RECEIVE_OFFERS = "RECEIVE_OFFERS";
 const ADD_OFFER = "ADD_OFFER";
+const RECEIVE_USERS = "RECEIVE_USERS";
 
 export async function recieveFriends() {
     try {
         const { data } = await axios.get("/get-friends");
-        // console.log("RECIEVE FRIEND in ACTIONS: ", data.users);
         return {
             type: RECEIVE_FRIENDS,
             users: data.users,
@@ -55,6 +55,13 @@ export async function receiveMessages(msgs) {
     return {
         type: RECEIVE_MESSAGES,
         msgs,
+    };
+}
+
+export async function receiveUsers(users) {
+    return {
+        type: RECEIVE_USERS,
+        users,
     };
 }
 
