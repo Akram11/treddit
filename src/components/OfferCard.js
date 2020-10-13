@@ -16,6 +16,7 @@ import ProfilePicture from "./ProfilePicture";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import { useSelector } from "react-redux";
 import { socket } from "../socket";
+import AvTimerIcon from "@material-ui/icons/AvTimer";
 
 export default function OfferCard({
     offerId,
@@ -95,9 +96,8 @@ export default function OfferCard({
                 </IconButton>
                 <Typography> {status}</Typography>
 
-                <Typography className={classes.cost}>
-                    treddits: {treddits}
-                </Typography>
+                <Typography className={classes.cost}>{treddits}</Typography>
+                <AvTimerIcon className={classes.treddit} />
             </CardActions>
         </Card>
     );
@@ -110,9 +110,12 @@ const useStyles = makeStyles((theme) => ({
         // height: 225,
         // backgroundColor: theme.palette.primary.light,
     },
+    treddit: {
+        color: "orange",
+    },
     cost: {
         marginLeft: "auto",
-        marginRight: 10,
+        marginRight: 2,
         color: "orange",
     },
     name: {

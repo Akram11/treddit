@@ -16,6 +16,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import PeopleIcon from "@material-ui/icons/People";
 import { Link } from "react-router-dom";
+import AvTimerIcon from "@material-ui/icons/AvTimer";
 
 export default function PrimaryAppBar({ img_url }) {
     const classes = useStyles();
@@ -65,6 +66,11 @@ export default function PrimaryAppBar({ img_url }) {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
+                    <AvTimerIcon
+                        style={{
+                            fontSize: 40,
+                        }}
+                    />
                     <Typography className={classes.title} variant="h4" noWrap>
                         <Link className={classes.logo} to="/">
                             Treddit
@@ -156,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         display: "none",
-        marginLeft: theme.spacing(4),
+        marginLeft: 10,
         [theme.breakpoints.up("sm")]: {
             display: "block",
         },
