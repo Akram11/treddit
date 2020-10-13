@@ -17,23 +17,26 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import socket from "../socket";
 
 export default function OfferCard({
+    offerId,
     id,
     first,
     last,
     title,
     status,
     text,
-    img_url,
+    imgUrl,
     date,
     treddits,
     email,
-    creator_id,
+    creatorId,
 }) {
     const classes = useStyles();
-    const handleRequest = (creator_id) => {
+    const handleRequest = (creatorId) => {
         // socket.emit("new request", id);
-        console.log("new request", creator_id);
+        console.log("new request", creatorId);
     };
+
+    console.log(typeof date);
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -42,14 +45,16 @@ export default function OfferCard({
                         radius={50}
                         width={45}
                         height={45}
-                        img_url={img_url}
+                        img_url={imgUrl}
                         className={classes.avatar}
                         email={email}
                     />
                 }
                 title={
                     <>
-                        <Typography variant="h6">{title}</Typography>
+                        <Typography color="textPrimary" variant="h6">
+                            {title}
+                        </Typography>
                         <Typography
                             className={classes.name}
                             variant="subtitle1"
@@ -68,9 +73,9 @@ export default function OfferCard({
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton>
-                    <ChatBubbleIcon />
+                    <ChatBubbleIcon color="secondary" />
                 </IconButton>
-                <IconButton onClick={(creator_id) => handleRequest(creator_id)}>
+                <IconButton onClick={() => handleRequest(creatorId)}>
                     <PanToolIcon color="primary" />
                 </IconButton>
                 {status}
@@ -87,6 +92,7 @@ const useStyles = makeStyles((theme) => ({
         // width: 600,
         margin: 5,
         // height: 225,
+        // backgroundColor: theme.palette.primary.light,
     },
     cost: {
         marginLeft: "auto",
@@ -95,5 +101,6 @@ const useStyles = makeStyles((theme) => ({
     },
     name: {
         color: "grey",
+        // color: theme.palette.secondary.dark,
     },
 }));

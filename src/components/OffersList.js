@@ -15,8 +15,8 @@ export default function OffersList() {
                         return (
                             <OfferCard
                                 key={i}
-                                offer_id={offer.id}
-                                creator_id={offer.creator_id}
+                                offerId={offer.id}
+                                creatorId={offer.creator_id}
                                 status={offer.status}
                                 email={offer.email}
                                 date={offer.created_at}
@@ -24,7 +24,7 @@ export default function OffersList() {
                                 last={offer.last}
                                 title={offer.title}
                                 text={offer.text}
-                                img_url={offer.img_url}
+                                imgUrl={offer.img_url}
                                 treddits={offer.price}
                             />
                         );

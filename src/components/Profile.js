@@ -9,25 +9,27 @@ export default function Profile({ ...props }) {
     let { first, last, bio, img_url, showModal, setBio, credits } = props;
     return (
         <>
-            <div style={maintStyle}>
-                <div style={style}>
-                    <ProfilePicture
-                        first={first}
-                        last={last}
-                        img_url={img_url}
-                        showModal={showModal}
-                    />
-                    <Typography variant="h5">
-                        {first} {last}
-                    </Typography>
-                    <Typography variant="subtitle2">
-                        Credits-balance: {credits}
-                    </Typography>
-                    <BioEditor bio={bio} setBio={setBio} showEdit={true} />
-                </div>
+            <Paper>
+                <div style={maintStyle}>
+                    <div style={style}>
+                        <ProfilePicture
+                            first={first}
+                            last={last}
+                            img_url={img_url}
+                            showModal={showModal}
+                        />
+                        <Typography align="center" variant="h5">
+                            {first} {last}
+                        </Typography>
+                        <Typography align="center" variant="subtitle2">
+                            Credits-balance: {credits}
+                        </Typography>
+                        <BioEditor bio={bio} setBio={setBio} showEdit={true} />
+                    </div>
 
-                <OffersList />
-            </div>
+                    <OffersList />
+                </div>
+            </Paper>
         </>
     );
 }

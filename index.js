@@ -343,6 +343,26 @@ io.on("connection", async (socket) => {
     io.sockets.emit("chatMessages", rows.reverse());
 
     const { rows: offers } = await db.getOffers();
+    // for (const offer in offers) {
+    // console.log(offers[0].created_at);
+    // }
+    let [month, date, year] = rows[0].created_at
+        .toLocaleDateString()
+        .split("/");
+
+    rows[0].created_at = `${date}.${month}.${year}`;
+
+    offers.map((offer) => {
+        // let [month, date, year] = offer.created_at
+        //     .toLocaleDateString()
+        //     .split("/");
+        offer.created_at = offer.created_at
+            .toLocaleDateString()
+            .split("/")
+            .join(".");
+    });
+
+    console.log(rows[0].created_at);
     io.sockets.emit("offers", offers);
 
     socket.on("new msg", async (newMsg) => {
