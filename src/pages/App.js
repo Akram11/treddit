@@ -11,6 +11,7 @@ import Chat from "../components/Chat";
 import PrimaryAppBar from "../components/AppBar";
 import UserChat from "../components/UserChat";
 import AddOffer from "../components/AddOffer";
+import Home from "../components/Home";
 
 export default class App extends Component {
     constructor(props) {
@@ -55,9 +56,27 @@ export default class App extends Component {
                             {/* <Bar /> */}
                             <Route
                                 exact
-                                path="/"
+                                path="/profile"
                                 render={() => (
                                     <Profile
+                                        userId={state.id}
+                                        first={state.first}
+                                        last={state.last}
+                                        img_url={state.img_url}
+                                        bio={state.bio}
+                                        credits={state.credits}
+                                        showModal={() =>
+                                            this.setState({ showModal: true })
+                                        }
+                                        setBio={(bio) => this.setBio(bio)}
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Home
                                         userId={state.id}
                                         first={state.first}
                                         last={state.last}

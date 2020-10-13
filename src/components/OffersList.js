@@ -3,8 +3,8 @@ import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import OfferCard from "./OfferCard";
 
-export default function OffersList({ credits, userId }) {
-    const offers = useSelector((state) => state && state.offers);
+export default function OffersList({ credits, userId, offers }) {
+    // const offers = useSelector((state) => state && state.offers);
 
     return (
         <>

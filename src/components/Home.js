@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import ProfilePicture from "./ProfilePicture";
 import BioEditor from "./BioEditor.js";
 import OffersList from "./OffersList";
-import { Button, Typography, Paper, Divider } from "@material-ui/core";
+import { Button, Typography, Paper } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 export default function Profile({ ...props }) {
@@ -12,14 +12,14 @@ export default function Profile({ ...props }) {
         last,
         bio,
         img_url,
-        showModal,
-        setBio,
+        // showModal,
+        // setBio,
         credits,
         userId,
     } = props;
     const allOffers = useSelector((state) => state && state.offers);
     let offers =
-        allOffers && allOffers.filter((offer) => offer.creator_id == userId);
+        allOffers && allOffers.filter((offer) => offer.creator_id != userId);
     console.log("OFFERs", offers);
     console.log("ALLOFFERS", allOffers);
 
@@ -32,7 +32,6 @@ export default function Profile({ ...props }) {
                             first={first}
                             last={last}
                             img_url={img_url}
-                            showModal={showModal}
                         />
                         <Typography align="center" variant="h5">
                             {first} {last}
@@ -41,18 +40,12 @@ export default function Profile({ ...props }) {
                             Credits-balance: {credits}
                         </Typography>
                     </div>
-                    <div>
-                        <BioEditor bio={bio} setBio={setBio} showEdit={true} />
-                        <Typography align="center" variant="h4">
-                            My Offers
-                        </Typography>
-                        <Divider />
-                        <OffersList
-                            offers={offers}
-                            userId={userId}
-                            credits={credits}
-                        />
-                    </div>
+
+                    <OffersList
+                        offers={offers}
+                        userId={userId}
+                        credits={credits}
+                    />
                 </div>
             </Paper>
         </>
@@ -68,7 +61,9 @@ const style = {
 };
 
 const maintStyle = {
+    // width: "100%",
     display: "flex",
     flexDirection: "row",
     padding: 10,
+    // alignItems: "center",
 };

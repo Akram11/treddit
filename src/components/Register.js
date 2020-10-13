@@ -30,8 +30,6 @@ export default function Registration() {
             <form className={classes.root} autoComplete="off">
                 <TextField
                     size="small"
-                    type="text"
-                    // value={first}
                     label="First Name"
                     variant="outlined"
                     required

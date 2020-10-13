@@ -41,11 +41,18 @@ export default function PrimaryAppBar({ img_url }) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <Link className={classes.links} to={"/profile"}>
+                    Profile
+                </Link>
+            </MenuItem>
+            <MenuItem className={classes.links} onClick={handleMenuClose}>
+                My account
+            </MenuItem>
             <MenuItem>
                 <a
-                    style={{ textDecoration: "none", color: "red" }}
+                    className={classes.links}
+                    style={{ textDecoration: "none" }}
                     href="/logout"
                 >
                     Log out
@@ -59,7 +66,9 @@ export default function PrimaryAppBar({ img_url }) {
             <AppBar position="static">
                 <Toolbar>
                     <Typography className={classes.title} variant="h4" noWrap>
-                        Treddit
+                        <Link className={classes.logo} to="/">
+                            Treddit
+                        </Link>
                     </Typography>
                     {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -76,7 +85,7 @@ export default function PrimaryAppBar({ img_url }) {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton color="inherit">
-                            <Badge badgeContent={0} color="secondary">
+                            <Badge badgeContent={1} color="secondary">
                                 <Link
                                     style={{
                                         color: "inherit",
@@ -186,6 +195,15 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("md")]: {
             width: "20ch",
         },
+    },
+    links: {
+        textDecoration: "none",
+        color: theme.palette.secondary.dark,
+    },
+    logo: {
+        textDecoration: "none",
+        color: "#FFF",
+        fontWeight: "bold",
     },
     // sectionDesktop: {
     //     display: "none",
