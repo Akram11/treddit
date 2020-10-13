@@ -6,7 +6,16 @@ import OffersList from "./OffersList";
 import { Button, Typography, Paper } from "@material-ui/core";
 
 export default function Profile({ ...props }) {
-    let { first, last, bio, img_url, showModal, setBio, credits } = props;
+    let {
+        first,
+        last,
+        bio,
+        img_url,
+        showModal,
+        setBio,
+        credits,
+        userId,
+    } = props;
     return (
         <>
             <Paper>
@@ -27,7 +36,7 @@ export default function Profile({ ...props }) {
                         <BioEditor bio={bio} setBio={setBio} showEdit={true} />
                     </div>
 
-                    <OffersList credits={credits} />
+                    <OffersList userId={userId} credits={credits} />
                 </div>
             </Paper>
         </>

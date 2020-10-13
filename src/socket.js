@@ -6,6 +6,7 @@ import {
     receiveOffer,
     addOffer,
     receiveUsers,
+    makeOfferRequest,
 } from "./redux/actions";
 export let socket;
 export const init = (store) => {
@@ -31,8 +32,12 @@ export const init = (store) => {
         });
 
         socket.on("addOffer", (offer) => {
-            console.log(offer);
             store.dispatch(addOffer(offer));
+        });
+
+        socket.on("make an offer request", (offerId, creatorId, userId) => {
+            console.log("made it to sockets", offerId, creatorId, userId);
+            store.dispatch(makeOfferRequest(offerId));
         });
     }
 };

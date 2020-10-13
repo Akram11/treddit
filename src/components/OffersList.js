@@ -3,7 +3,7 @@ import { socket } from "../socket";
 import { useSelector } from "react-redux";
 import OfferCard from "./OfferCard";
 
-export default function OffersList({ credits }) {
+export default function OffersList({ credits, userId }) {
     const offers = useSelector((state) => state && state.offers);
 
     return (
@@ -13,6 +13,7 @@ export default function OffersList({ credits }) {
                     offers.map((offer, i) => {
                         return (
                             <OfferCard
+                                userId={userId}
                                 credits={credits}
                                 key={i}
                                 offerId={offer.id}

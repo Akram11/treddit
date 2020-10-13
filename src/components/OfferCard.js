@@ -15,11 +15,10 @@ import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ProfilePicture from "./ProfilePicture";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import { useSelector } from "react-redux";
-import socket from "../socket";
+import { socket } from "../socket";
 
 export default function OfferCard({
     offerId,
-    id,
     first,
     last,
     title,
@@ -31,19 +30,23 @@ export default function OfferCard({
     email,
     creatorId,
     credits,
+    userId,
 }) {
-    const state = useSelector((state) => state && state);
+    const users = useSelector((state) => state && state.users);
 
-    console.log("state", state);
     const classes = useStyles();
-    const handleRequest = (creatorId) => {
-        console.log("new request", creatorId);
+    const handleRequest = () => {
         if (treddits > 0) {
-            socket.emit("new request", id);
+            socket.emit(
+                "make an offer request",
+                offerId,
+                creatorId,
+                userId,
+                "done"
+            );
         }
     };
 
-    console.log(typeof date);
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -84,7 +87,7 @@ export default function OfferCard({
                 </IconButton>
                 <IconButton
                     disabled={credits > 0 ? false : true}
-                    onClick={() => handleRequest(creatorId)}
+                    onClick={handleRequest}
                 >
                     <PanToolIcon
                         color={credits > 0 ? "secondary" : "disabled"}

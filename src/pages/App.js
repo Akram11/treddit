@@ -58,7 +58,7 @@ export default class App extends Component {
                                 path="/"
                                 render={() => (
                                     <Profile
-                                        id={state.id}
+                                        userId={state.id}
                                         first={state.first}
                                         last={state.last}
                                         img_url={state.img_url}

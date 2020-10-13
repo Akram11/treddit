@@ -196,6 +196,14 @@ module.exports.addOffer = (id, title, text, price, location) => {
     );
 };
 
+module.exports.updateOffer = (offerId, userId, value) => {
+    return db.query(` UPDATE offers SET status=$3, buyer_id=$2 where id=$1;`, [
+        offerId,
+        userId,
+        value,
+    ]);
+};
+
 // just a comment
 // users.id, users.first, users.last, users.img_url, users.email , messages.text, messages.created_at
 

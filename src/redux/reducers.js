@@ -71,5 +71,32 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type === "MAKE_OFFER_REQUEST") {
+        state = {
+            ...state,
+            offer: state.offers.map((offer) => {
+                if (action.offerId == offer.id) {
+                    return {
+                        ...offer,
+                        status: "done",
+                        buyer_id: action.userId,
+                    };
+                } else {
+                    return offer;
+                }
+            }),
+        };
+    }
+
     return state;
 }
+// users: state.users.map((user) => {
+//                 if (action.id === user.id) {
+//                     return {
+//                         ...user,
+//                         accepted: true,
+//                     };
+//                 } else {
+//                     return user;
+//                 }
+//             }),

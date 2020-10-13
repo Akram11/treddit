@@ -353,16 +353,22 @@ io.on("connection", async (socket) => {
     io.sockets.emit("offers", offers);
 
     const { rows: users } = await db.getAllUsers();
-    console.log(users);
     io.sockets.emit("receiveUsers", users);
 
     socket.on("new msg", async (newMsg) => {
         const { rows } = await db.addMessage(userId, newMsg);
         const { rows: senderData } = await db.getSender(userId);
         const msgInfo = { ...rows[0], ...senderData[0] };
-        console.log(msgInfo);
         io.sockets.emit("addChatMsg", msgInfo);
     });
+
+    socket.on(
+        "make an offer request",
+        async (offerId, creatorId, userId, value) => {
+            console.log(offerId, creatorId, userId, value);
+            const { rows } = await db.updateOffer(offerId, userId, value);
+        }
+    );
 
     socket.on("new offer", async (value) => {
         const { title, text, price, location } = value;
@@ -376,10 +382,6 @@ io.on("connection", async (socket) => {
         const { rows: creatorData } = await db.getSender(userId);
         const offerInfo = { ...offer[0], ...creatorData[0] };
         io.sockets.emit("addOffer", offerInfo);
-        // const { rows: senderData } = await db.getSender(userId);
-        // const msgInfo = { ...rows[0], ...senderData[0] };
-        // console.log(msgInfo);
-        // io.sockets.emit("addChatMsg", msgInfo);
     });
 
     socket.on("disconnect", () => {

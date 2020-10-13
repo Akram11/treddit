@@ -9,6 +9,7 @@ const ADD_CHAT_USER_MESSAGE = "ADD_CHAT_USER_MESSAGE";
 const RECEIVE_OFFERS = "RECEIVE_OFFERS";
 const ADD_OFFER = "ADD_OFFER";
 const RECEIVE_USERS = "RECEIVE_USERS";
+const MAKE_OFFER_REQUEST = "MAKE_OFFER_REQUEST";
 
 export async function recieveFriends() {
     try {
@@ -105,5 +106,15 @@ export async function AddchatUserMessage(id, text) {
         type: ADD_CHAT_USER_MESSAGE,
         id,
         data,
+    };
+}
+
+export async function makeOfferRequest(offerId, creatorId, userId) {
+    console.log("made it to acitons", offerId, creatorId, userId);
+    return {
+        type: MAKE_OFFER_REQUEST,
+        offerId,
+        creatorId,
+        userId,
     };
 }
