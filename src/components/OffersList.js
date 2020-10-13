@@ -15,6 +15,9 @@ export default function OffersList() {
                         return (
                             <OfferCard
                                 key={i}
+                                offer_id={offer.id}
+                                creator_id={offer.creator_id}
+                                status={offer.status}
                                 email={offer.email}
                                 date={offer.created_at}
                                 first={offer.first}

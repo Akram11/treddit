@@ -14,24 +14,26 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ProfilePicture from "./ProfilePicture";
 import PanToolIcon from "@material-ui/icons/PanTool";
+import socket from "../socket";
 
 export default function OfferCard({
+    id,
     first,
     last,
     title,
+    status,
     text,
     img_url,
     date,
     treddits,
     email,
+    creator_id,
 }) {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const handleRequest = (creator_id) => {
+        // socket.emit("new request", id);
+        console.log("new request", creator_id);
     };
-
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -65,12 +67,13 @@ export default function OfferCard({
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton>
                     <ChatBubbleIcon />
                 </IconButton>
-                <IconButton aria-label="share">
-                    <PanToolIcon />
+                <IconButton onClick={(creator_id) => handleRequest(creator_id)}>
+                    <PanToolIcon color="primary" />
                 </IconButton>
+                {status}
                 <Typography className={classes.cost}>
                     treddits: {treddits}
                 </Typography>

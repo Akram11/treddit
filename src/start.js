@@ -8,11 +8,27 @@ import reduxPromise from "redux-promise";
 import reducers from "./redux/reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { init } from "../src/socket";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const store = createStore(
     reducers,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#ff4400",
+            light: "#ff7a3a",
+            dark: "#c30000",
+        },
+        secondary: {
+            main: "#00bbff",
+            light: "#6aedff",
+            dark: "#008bcc",
+        },
+    },
+});
 
 let component;
 if (location.pathname === "/welcome") {
@@ -21,7 +37,9 @@ if (location.pathname === "/welcome") {
     init(store);
     component = (
         <Provider store={store}>
-            <App />
+            <ThemeProvider theme={theme}>
+                <App />
+            </ThemeProvider>
         </Provider>
     );
 }
