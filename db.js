@@ -175,7 +175,7 @@ module.exports.getUserChat = (id, otherID) => {
 };
 
 module.exports.getOffers = () => {
-    return db.query(`SELECT users.id, first, last, img_url, email ,offers.id , creator_id, status, title, text, price, status, location ,offers.created_at
+    return db.query(`SELECT users.id, first, last, img_url, email ,offers.id , creator_id, buyer_id ,status, title, text, price, status, location ,offers.created_at
         FROM users JOIN offers on users.id = offers.creator_id ORDER BY offers.id DESC`);
 };
 module.exports.getOffer = (id) => {
@@ -197,11 +197,10 @@ module.exports.addOffer = (id, title, text, price, location) => {
 };
 
 module.exports.updateOffer = (offerId, userId, value) => {
-    return db.query(` UPDATE offers SET status=$3, buyer_id=$2 where id=$1;`, [
-        offerId,
-        userId,
-        value,
-    ]);
+    return db.query(
+        ` UPDATE offers SET status=$3, buyer_id=$2 where id=$1 RETURNING *`,
+        [offerId, userId, value]
+    );
 };
 
 // just a comment

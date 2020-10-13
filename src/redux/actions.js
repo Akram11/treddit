@@ -109,12 +109,12 @@ export async function AddchatUserMessage(id, text) {
     };
 }
 
-export async function makeOfferRequest(offerId, creatorId, userId) {
-    console.log("made it to acitons", offerId, creatorId, userId);
+export async function changeOffer(offerId, buyer_id, status) {
+    console.log("made it to actions", offerId, buyer_id, status);
     return {
         type: MAKE_OFFER_REQUEST,
         offerId,
-        creatorId,
-        userId,
+        buyer_id,
+        status,
     };
 }
