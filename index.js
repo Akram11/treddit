@@ -363,6 +363,25 @@ io.on("connection", async (socket) => {
     });
 
     socket.on(
+        "make an offer booking",
+        async (offerId, creatorId, userId, treddits, value) => {
+            const { rows: bookOffer } = await db.updateOffer(
+                offerId,
+                userId,
+                value
+            );
+
+            io.sockets.emit(
+                "BookOffer",
+                offerId,
+                bookOffer[0].buyer_id,
+                bookOffer[0].status,
+                creatorId
+            );
+        }
+    );
+
+    socket.on(
         "make an offer request",
         async (offerId, creatorId, userId, treddits, value) => {
             console.log(offerId, creatorId, userId, value);
@@ -373,10 +392,6 @@ io.on("connection", async (socket) => {
             );
             await db.updateBalance(-treddits, userId);
             await db.updateBalance(treddits, creatorId);
-            // const { rows: creatorBalance } = await db.updateBalance(
-            //     treddits,
-            //     userId
-            // );
 
             console.log(changedOffer[0].status, changedOffer);
             io.sockets.emit(

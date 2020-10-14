@@ -32,9 +32,13 @@ export default function OfferCard({
     creatorId,
     credits,
     userId,
+    buyerId,
+    userName,
 }) {
-    // const users = useSelector((state) => state && state.users);
-
+    const users = useSelector((state) => state && state.users);
+    const buyer =
+        users && buyerId && users.filter((user) => user.id == buyerId);
+    console.log(buyer);
     const classes = useStyles();
     const handleRequest = () => {
         if (credits >= treddits) {
@@ -45,6 +49,20 @@ export default function OfferCard({
                 userId,
                 treddits,
                 "done"
+            );
+        }
+    };
+
+    const handleBooking = () => {
+        if (credits >= treddits && status == "available") {
+            console.log("you can book");
+            socket.emit(
+                "make an offer booking",
+                offerId,
+                creatorId,
+                userId,
+                treddits,
+                `pending booked by ${userName}`
             );
         }
     };
@@ -89,13 +107,13 @@ export default function OfferCard({
                 </IconButton>
                 <IconButton
                     disabled={credits >= treddits ? false : true}
-                    onClick={handleRequest}
+                    onClick={handleBooking}
                 >
                     <PanToolIcon
                         color={credits >= treddits ? "secondary" : "disabled"}
                     />
                 </IconButton>
-                <Typography> {status}</Typography>
+                <Typography>{status}</Typography>
 
                 <Typography className={classes.cost}>{treddits}</Typography>
                 <AvTimerIcon className={classes.treddit} />

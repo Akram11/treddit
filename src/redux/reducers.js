@@ -70,7 +70,22 @@ export default function (state = {}, action) {
             },
         };
     }
-    // offerId, buyerId, status, treddits, creatorId;
+    if (action.type === "BOOK_OFFER") {
+        state = {
+            ...state,
+            offers: state.offers.map((offer) => {
+                if (action.offerId == offer.id) {
+                    return {
+                        ...offer,
+                        status: action.status,
+                        buyer_id: action.buyerId,
+                    };
+                } else {
+                    return offer;
+                }
+            }),
+        };
+    }
     if (action.type === "MAKE_OFFER_REQUEST") {
         state = {
             ...state,

@@ -60,6 +60,7 @@ export default function Profile({ ...props }) {
                     <OffersList
                         offers={offers}
                         userId={userId}
+                        userName={first}
                         credits={credits}
                     />
                 </div>

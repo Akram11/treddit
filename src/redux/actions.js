@@ -10,6 +10,7 @@ const RECEIVE_OFFERS = "RECEIVE_OFFERS";
 const ADD_OFFER = "ADD_OFFER";
 const RECEIVE_USERS = "RECEIVE_USERS";
 const MAKE_OFFER_REQUEST = "MAKE_OFFER_REQUEST";
+const BOOK_OFFER = "BOOK_OFFER";
 
 export async function recieveFriends() {
     try {
@@ -109,6 +110,17 @@ export async function AddchatUserMessage(id, text) {
     };
 }
 
+bookOffer;
+
+export async function bookOffer(offerId, buyerId, status) {
+    return {
+        type: BOOK_OFFER,
+        offerId,
+        buyerId,
+        status,
+    };
+}
+
 export async function changeOffer(
     offerId,
     buyerId,
@@ -116,14 +128,6 @@ export async function changeOffer(
     treddits,
     creatorId
 ) {
-    console.log(
-        "made it to actions",
-        offerId,
-        buyerId,
-        status,
-        treddits,
-        creatorId
-    );
     return {
         type: MAKE_OFFER_REQUEST,
         offerId,
