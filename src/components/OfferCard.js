@@ -17,6 +17,7 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import { useSelector } from "react-redux";
 import { socket } from "../socket";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 export default function OfferCard({
     offerId,
@@ -34,6 +35,7 @@ export default function OfferCard({
     userId,
     buyerId,
     userName,
+    location,
 }) {
     const users = useSelector((state) => state && state.users);
     const buyer =
@@ -114,7 +116,10 @@ export default function OfferCard({
                     />
                 </IconButton>
                 <Typography>{status}</Typography>
-
+                <LocationOnIcon className={classes.locaionIcon} />
+                <Typography className={classes.locaiontxt}>
+                    {location}
+                </Typography>
                 <Typography className={classes.cost}>{treddits}</Typography>
                 <AvTimerIcon className={classes.treddit} />
             </CardActions>
@@ -133,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
         color: "orange",
     },
     cost: {
-        marginLeft: "auto",
+        marginLeft: 15,
         marginRight: 2,
         color: "orange",
     },
@@ -141,4 +146,6 @@ const useStyles = makeStyles((theme) => ({
         color: "grey",
         // color: theme.palette.secondary.dark,
     },
+    locaionIcon: { color: "grey", marginLeft: "auto" },
+    locaiontxt: { color: "grey", fontSize: 14 },
 }));

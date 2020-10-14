@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { socket } from "../socket";
-import { useSelector } from "react-redux";
 import OfferCard from "./OfferCard";
 
 export default function OffersList({ credits, userId, offers, userName }) {
-    // const offers = useSelector((state) => state && state.offers);
-
     return (
         <>
             <div>
@@ -29,6 +25,7 @@ export default function OffersList({ credits, userId, offers, userName }) {
                                 treddits={offer.price}
                                 buyerId={offer.buyer_id}
                                 userName={userName}
+                                location={offer.location}
                             />
                         );
                     })}
