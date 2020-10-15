@@ -36,15 +36,18 @@ export default function Chat({ match }) {
                         </div>
                     ))}
             </div>
-            <TextField
-                size={"medium"}
-                autoFocus
-                // margin={"dense"}
-                // variant={fill}
-                fullWidth
-                variant="outlined"
-                onKeyDown={keyCheck}
-            ></TextField>
+
+            <div className="chat-input">
+                <TextField
+                    size={"medium"}
+                    autoFocus
+                    // margin={"dense"}
+                    // variant={fill}
+                    fullWidth
+                    variant="outlined"
+                    onKeyDown={keyCheck}
+                ></TextField>
+            </div>
         </>
     );
 }

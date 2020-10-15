@@ -8,18 +8,15 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ProfilePicture from "./ProfilePicture";
-import PanToolIcon from "@material-ui/icons/PanTool";
 import { useSelector } from "react-redux";
 import { socket } from "../socket";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Button from "@material-ui/core/Button";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import { Link } from "react-router-dom";
 
 export default function OfferCard({
     offerId,
@@ -68,26 +65,25 @@ export default function OfferCard({
         <Card className={classes.root}>
             <CardHeader
                 avatar={
-                    <ProfilePicture
-                        first={first}
-                        last={last}
-                        radius={50}
-                        width={45}
-                        height={45}
-                        img_url={imgUrl}
-                        className={classes.avatar}
-                        email={email}
-                    />
+                    <Link to={`/user/${creatorId}`}>
+                        <ProfilePicture
+                            first={first}
+                            last={last}
+                            radius={50}
+                            width={45}
+                            height={45}
+                            img_url={imgUrl}
+                            className={classes.avatar}
+                            email={email}
+                        />
+                    </Link>
                 }
                 title={
                     <>
                         <Typography color="textPrimary" variant="h6">
                             {title}
                         </Typography>
-                        <Typography
-                            className={classes.name}
-                            variant="subtitle1"
-                        >
+                        <Typography className={classes.name}>
                             {first} {last}
                         </Typography>
                     </>
@@ -127,9 +123,11 @@ export default function OfferCard({
                     </>
                 ) : (
                     <>
-                        <IconButton>
-                            <ChatBubbleIcon color="primary" />
-                        </IconButton>
+                        <Link to={`/chat/${creatorId}`}>
+                            <IconButton>
+                                <ChatBubbleIcon color="primary" />
+                            </IconButton>
+                        </Link>
                         <IconButton
                             disabled={
                                 status == "available" && credits >= treddits

@@ -336,11 +336,24 @@ server.listen(app.listen(process.env.PORT || 8080), function () {
     console.log("I'm listening.");
 });
 
+const onlineUsers = {};
+
 io.on("connection", async (socket) => {
     console.log(`Socket with id ${socket.id} has connected`);
 
     const userId = socket.request.session.userId;
     if (!userId) return socket.disconnect(true);
+
+    // onlineUsers["userId"] = socket.id;
+
+    var item = {};
+    if (onlineUsers.hasOwnProperty(userId)) {
+        onlineUsers[userId].push(socket.id);
+    } else {
+        onlineUsers[userId] = [socket.id];
+    }
+
+    console.log(onlineUsers);
 
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows.reverse());
@@ -436,6 +449,13 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("disconnect", () => {
-        console.log(`Socket with id ${socket.id} has disconnected`);
+        console.log("XXXXXXX", socket.id);
+        onlineUsers[userId] = onlineUsers[userId].filter((s) => {
+            return s !== socket.id;
+        });
+        console.log(
+            `Socket with id ${socket.id} has disconnected`,
+            onlineUsers
+        );
     });
 });

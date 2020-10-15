@@ -91,7 +91,7 @@ export default function PrimaryAppBar({ img_url }) {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton color="inherit">
-                            <Badge badgeContent={1} color="secondary">
+                            <Badge badgeContent={0} color="secondary">
                                 <Link
                                     style={{
                                         color: "inherit",

@@ -138,23 +138,3 @@ export default class App extends Component {
         }
     }
 }
-{
-    /* <>
-    <div className="">welcome to app</div>
-    <Profile
-        bio={this.state.bio}
-        first={state.first}
-        last={state.last}
-        img_url={this.state.img_url}
-        showModal={() => this.setState({ showModal: true })}
-        setBio={(bio) => this.setBio(bio)}
-    />
-
-    {state.showModal && (
-        <Uploader
-            changeImg={(image) => this.setImage(image)}
-            close={() => this.setState({ showModal: false })}
-        />
-    )}
-</>; */
-}
