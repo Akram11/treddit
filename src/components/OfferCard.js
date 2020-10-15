@@ -18,6 +18,8 @@ import { useSelector } from "react-redux";
 import { socket } from "../socket";
 import AvTimerIcon from "@material-ui/icons/AvTimer";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import Button from "@material-ui/core/Button";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 
 export default function OfferCard({
     offerId,
@@ -36,23 +38,16 @@ export default function OfferCard({
     buyerId,
     userName,
     location,
+    actionCard,
 }) {
+    console.log(actionCard);
     const users = useSelector((state) => state && state.users);
-    const buyer =
-        users && buyerId && users.filter((user) => user.id == buyerId);
-    console.log(buyer);
+    // const buyer =
+    //     users && buyerId && users.filter((user) => user.id == buyerId);
     const classes = useStyles();
-    const handleRequest = () => {
-        if (credits >= treddits) {
-            socket.emit(
-                "make an offer request",
-                offerId,
-                creatorId,
-                userId,
-                treddits,
-                "done"
-            );
-        }
+    const handleAccept = () => {
+        console.log(offerId, "exchanged");
+        socket.emit("accept offer", offerId, "exchanged");
     };
 
     const handleBooking = () => {
@@ -74,6 +69,8 @@ export default function OfferCard({
             <CardHeader
                 avatar={
                     <ProfilePicture
+                        first={first}
+                        last={last}
                         radius={50}
                         width={45}
                         height={45}
@@ -104,24 +101,59 @@ export default function OfferCard({
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton>
-                    <ChatBubbleIcon color="primary" />
-                </IconButton>
-                <IconButton
-                    disabled={credits >= treddits ? false : true}
-                    onClick={handleBooking}
-                >
-                    <PanToolIcon
-                        color={credits >= treddits ? "secondary" : "disabled"}
-                    />
-                </IconButton>
-                <Typography>{status}</Typography>
-                <LocationOnIcon className={classes.locaionIcon} />
-                <Typography className={classes.locaiontxt}>
-                    {location}
-                </Typography>
-                <Typography className={classes.cost}>{treddits}</Typography>
-                <AvTimerIcon className={classes.treddit} />
+                {actionCard ? (
+                    <>
+                        {status.includes("pending") && (
+                            <>
+                                <Button
+                                    className={classes.actionButton}
+                                    color="secondary"
+                                    onClick={handleAccept}
+                                >
+                                    accept
+                                </Button>
+                                <Button
+                                    className={classes.actionButton}
+                                    color="primary"
+                                >
+                                    reject
+                                </Button>
+                            </>
+                        )}
+                        <Typography className={classes.status}>
+                            {status}
+                        </Typography>
+                    </>
+                ) : (
+                    <>
+                        <IconButton>
+                            <ChatBubbleIcon color="primary" />
+                        </IconButton>
+                        <IconButton
+                            disabled={credits >= treddits ? false : true}
+                            onClick={handleBooking}
+                        >
+                            <EmojiPeopleIcon
+                                color={
+                                    credits >= treddits
+                                        ? "secondary"
+                                        : "disabled"
+                                }
+                            />
+                        </IconButton>
+                        <Typography className={classes.locaiontxt}>
+                            {status}
+                        </Typography>
+                        <LocationOnIcon className={classes.locaionIcon} />
+                        <Typography className={classes.locaiontxt}>
+                            {location}
+                        </Typography>
+                        <Typography className={classes.cost}>
+                            {treddits}
+                        </Typography>
+                        <AvTimerIcon className={classes.treddit} />
+                    </>
+                )}
             </CardActions>
         </Card>
     );
@@ -144,8 +176,10 @@ const useStyles = makeStyles((theme) => ({
     },
     name: {
         color: "grey",
-        // color: theme.palette.secondary.dark,
+        color: theme.palette.secondary.dark,
     },
     locaionIcon: { color: "grey", marginLeft: "auto" },
     locaiontxt: { color: "grey", fontSize: 14 },
+    actionButton: { marginLeft: 5, marginRight: 5 },
+    status: { marginLeft: "auto", paddingBottom: 10 },
 }));

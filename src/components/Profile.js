@@ -21,40 +21,45 @@ export default function Profile({ ...props }) {
     let offers =
         allOffers && allOffers.filter((offer) => offer.creator_id == userId);
     const users = useSelector((state) => state && state.users);
-    const user = users && users.filter((user) => user.id == userId);
+    // const user = users && users.filter((user) => user.id == userId);
 
     return (
         <>
-            <Paper>
-                <div style={maintStyle}>
-                    <div style={style}>
-                        <ProfilePicture
-                            first={first}
-                            last={last}
-                            img_url={img_url}
-                            showModal={showModal}
-                        />
-                        <Typography align="center" variant="h5">
-                            {first} {last}
-                        </Typography>
-                        <Typography align="center" variant="subtitle2">
-                            credits balance: {user && user[0]["credits"]}
-                        </Typography>
-                    </div>
-                    <div>
-                        <BioEditor bio={bio} setBio={setBio} showEdit={true} />
-                        <Typography align="center" variant="h4">
-                            My Offers
-                        </Typography>
-                        <Divider />
-                        <OffersList
-                            offers={offers}
-                            userId={userId}
-                            credits={credits}
-                        />
-                    </div>
+            {/* <Paper style={{ height: "100vh" }}> */}
+            <div style={mainStyle}>
+                <div style={style}>
+                    <ProfilePicture
+                        first={first}
+                        last={last}
+                        img_url={img_url}
+                        showModal={showModal}
+                    />
+                    <Typography align="center" variant="h5">
+                        {first} {last}
+                    </Typography>
+                    <Typography align="center" variant="subtitle2">
+                        {/* credits balance: {user && user[0]["credits"]} */}
+                    </Typography>
                 </div>
-            </Paper>
+                <div>
+                    <BioEditor bio={bio} setBio={setBio} showEdit={true} />
+                    <Typography
+                        align="center"
+                        variant="h4"
+                        style={{ marginBottom: 40 }}
+                    >
+                        My Offers
+                    </Typography>
+                    <Divider />
+                    <OffersList
+                        actionCard={true}
+                        offers={offers}
+                        userId={userId}
+                        credits={credits}
+                    />
+                </div>
+            </div>
+            {/* </Paper> */}
         </>
     );
 }
@@ -67,7 +72,7 @@ const style = {
     alignItems: "center",
 };
 
-const maintStyle = {
+const mainStyle = {
     display: "flex",
     flexDirection: "row",
     padding: 10,

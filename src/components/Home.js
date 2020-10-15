@@ -21,8 +21,9 @@ export default function Profile({ ...props }) {
     const allOffers = useSelector((state) => state && state.offers);
     let offers =
         allOffers && allOffers.filter((offer) => offer.creator_id != userId);
-    const users = useSelector((state) => state && state.users);
-    const user = users && users.filter((user) => user.id == userId);
+
+    // const users = useSelector((state) => state && state.users);
+    // const user = users && users.filter((user) => user.id == userId);
 
     return (
         <>
@@ -38,7 +39,7 @@ export default function Profile({ ...props }) {
                             {first} {last}
                         </Typography>
                         <Typography align="center" variant="subtitle2">
-                            credits balance: {user && user[0]["credits"]}
+                            {/* credits balance: {user && user[0]["credits"]} */}
                         </Typography>
                         <Button
                             variant="contained"
@@ -58,6 +59,7 @@ export default function Profile({ ...props }) {
                     </div>
 
                     <OffersList
+                        actionCard={false}
                         offers={offers}
                         userId={userId}
                         userName={first}

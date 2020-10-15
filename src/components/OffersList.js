@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import OfferCard from "./OfferCard";
 
-export default function OffersList({ credits, userId, offers, userName }) {
+export default function OffersList({
+    credits,
+    userId,
+    offers,
+    userName,
+    actionCard,
+}) {
     return (
         <>
             <div>
@@ -26,6 +32,7 @@ export default function OffersList({ credits, userId, offers, userName }) {
                                 buyerId={offer.buyer_id}
                                 userName={userName}
                                 location={offer.location}
+                                actionCard={actionCard}
                             />
                         );
                     })}

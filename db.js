@@ -203,6 +203,13 @@ module.exports.updateOffer = (offerId, userId, value) => {
     );
 };
 
+module.exports.updateOfferStatus = (offerId, value) => {
+    return db.query(` UPDATE offers SET status=$2 where id=$1 RETURNING *`, [
+        offerId,
+        value,
+    ]);
+};
+
 module.exports.updateBalance = (value, userId) => {
     console.log(value);
     return db.query(` UPDATE users SET credits=credits + $1 WHERE id=$2`, [

@@ -381,29 +381,30 @@ io.on("connection", async (socket) => {
         }
     );
 
-    socket.on(
-        "make an offer request",
-        async (offerId, creatorId, userId, treddits, value) => {
-            console.log(offerId, creatorId, userId, value);
-            const { rows: changedOffer } = await db.updateOffer(
-                offerId,
-                userId,
-                value
-            );
-            await db.updateBalance(-treddits, userId);
-            await db.updateBalance(treddits, creatorId);
+    socket.on("accept offer", async (offerId, value) => {
+        console.log(offerId, value);
+        const { rows: changedOffer } = await db.updateOfferStatus(
+            offerId,
+            value
+        );
 
-            console.log(changedOffer[0].status, changedOffer);
-            io.sockets.emit(
-                "changeOffer",
-                offerId,
-                changedOffer[0].buyer_id,
-                changedOffer[0].status,
-                treddits,
-                creatorId
-            );
-        }
-    );
+        console.log(changedOffer[0].status, changedOffer);
+
+        const creator = changedOffer[0].creator_id;
+        const buyer = changedOffer[0].buyer_id;
+        const treddits = changedOffer[0].price;
+        await db.updateBalance(-treddits, buyer);
+        await db.updateBalance(treddits, creator);
+
+        io.sockets.emit(
+            "changeOffer",
+            offerId,
+            changedOffer[0].buyer_id,
+            changedOffer[0].status,
+            treddits,
+            creator
+        );
+    });
 
     socket.on("new offer", async (value) => {
         const { title, text, price, location } = value;
