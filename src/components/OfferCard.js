@@ -130,16 +130,16 @@ export default function OfferCard({
                             <ChatBubbleIcon color="primary" />
                         </IconButton>
                         <IconButton
-                            disabled={
-                                status == "available" && credits > treddits
-                                    ? false
-                                    : true
-                            }
+                            // disabled={
+                            //     status == "available" && credits >= treddits
+                            //         ? false
+                            //         : true
+                            // }
                             onClick={handleBooking}
                         >
                             <EmojiPeopleIcon
                                 color={
-                                    status == "available" && credits > treddits
+                                    status == "available" && credits >= treddits
                                         ? "secondary"
                                         : "disabled"
                                 }

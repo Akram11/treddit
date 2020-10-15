@@ -101,6 +101,7 @@ export default function (state = {}, action) {
                         credits: user.credits + action.treddits,
                     };
                 }
+                return user;
             }),
             offers: state.offers.map((offer) => {
                 if (action.offerId == offer.id) {

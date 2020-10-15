@@ -28,7 +28,6 @@ export default function Chat({ match }) {
     };
     return (
         <>
-            thisis user chat
             <div className="area chat-container" ref={elemRef}>
                 {chatMessages &&
                     chatMessages.map((message) => (
@@ -37,7 +36,15 @@ export default function Chat({ match }) {
                         </div>
                     ))}
             </div>
-            <TextField fullWidth onKeyDown={keyCheck}></TextField>
+            <TextField
+                size={"medium"}
+                autoFocus
+                // margin={"dense"}
+                // variant={fill}
+                fullWidth
+                variant="outlined"
+                onKeyDown={keyCheck}
+            ></TextField>
         </>
     );
 }
