@@ -25,9 +25,7 @@ export default class App extends Component {
         let { data } = await axios.get("/user");
         this.setState({
             ...data,
-            img_url:
-                data.img_url ||
-                `https://api.adorable.io/avatars/229/${data.email}@adorable.io.png`,
+            img_url: data.img_url,
         });
     }
 
