@@ -64,7 +64,7 @@ export default function PrimaryAppBar({ img_url }) {
 
     return (
         <div className={classes.grow}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <AvTimerIcon
                         style={{
@@ -144,6 +144,8 @@ export default function PrimaryAppBar({ img_url }) {
                     </div>
                 </Toolbar>
             </AppBar>
+            <Toolbar />
+
             {renderMenu}
         </div>
     );

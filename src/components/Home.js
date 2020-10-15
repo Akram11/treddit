@@ -22,7 +22,6 @@ export default function Home({ ...props }) {
     let offers =
         allOffers && allOffers.filter((offer) => offer.creator_id != userId);
     const users = useSelector((state) => state && state.users);
-    console.log("XXXXXXXX", users);
     const user = users && users.filter((user) => user.id == userId);
 
     return (
@@ -34,10 +33,18 @@ export default function Home({ ...props }) {
                         last={last}
                         img_url={img_url}
                     />
-                    <Typography align="center" variant="h5">
+                    <Typography
+                        style={{ marginBottom: 5 }}
+                        align="center"
+                        variant="h5"
+                    >
                         {first} {last}
                     </Typography>
-                    <Typography align="center" variant="subtitle2">
+                    <Typography
+                        style={{ marginBottom: 20 }}
+                        align="center"
+                        variant="subtitle2"
+                    >
                         credits balance: {user && user[0]["credits"]}
                     </Typography>
                     <Button
@@ -70,7 +77,8 @@ export default function Home({ ...props }) {
 }
 
 const style = {
-    width: 250,
+    width: 300,
+
     display: "flex",
     flexDirection: "column",
     // justifyContent: "center",

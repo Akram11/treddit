@@ -40,19 +40,19 @@ export default function OfferCard({
     location,
     actionCard,
 }) {
-    console.log(credits < treddits && status.includes("available"));
-    const users = useSelector((state) => state && state.users);
-    // const buyer =
-    //     users && buyerId && users.filter((user) => user.id == buyerId);
+    // const users = useSelector((state) => state && state.users);
+
     const classes = useStyles();
     const handleAccept = () => {
-        // console.log(offerId, "exchanged");
         socket.emit("accept offer", offerId, "exchanged");
+    };
+
+    const handleReject = () => {
+        socket.emit("reject offer", offerId, "available");
     };
 
     const handleBooking = () => {
         if (credits >= treddits && status == "available") {
-            console.log("you can book");
             socket.emit(
                 "make an offer booking",
                 offerId,
@@ -115,6 +115,7 @@ export default function OfferCard({
                                 <Button
                                     className={classes.actionButton}
                                     color="primary"
+                                    onClick={handleReject}
                                 >
                                     reject
                                 </Button>
@@ -130,11 +131,11 @@ export default function OfferCard({
                             <ChatBubbleIcon color="primary" />
                         </IconButton>
                         <IconButton
-                            // disabled={
-                            //     status == "available" && credits >= treddits
-                            //         ? false
-                            //         : true
-                            // }
+                            disabled={
+                                status == "available" && credits >= treddits
+                                    ? false
+                                    : true
+                            }
                             onClick={handleBooking}
                         >
                             <EmojiPeopleIcon
@@ -166,6 +167,7 @@ export default function OfferCard({
 const useStyles = makeStyles((theme) => ({
     root: {
         // width: 600,
+        padding: 5,
         margin: 5,
         // height: 225,
         // backgroundColor: theme.palette.primary.light,

@@ -8,6 +8,7 @@ import {
     receiveUsers,
     changeOffer,
     bookOffer,
+    rejectOffer,
 } from "./redux/actions";
 export let socket;
 export const init = (store) => {
@@ -37,20 +38,17 @@ export const init = (store) => {
         });
 
         socket.on("BookOffer", (offerId, buyerId, status, creatorId) => {
-            console.log("made it to sockets", offerId, buyerId, status);
             store.dispatch(bookOffer(offerId, buyerId, status));
+        });
+
+        socket.on("reject action", (offerId, status) => {
+            console.log("action", offerId, status);
+            store.dispatch(rejectOffer(offerId, status));
         });
 
         socket.on(
             "changeOffer",
             (offerId, buyerId, status, treddits, creatorId) => {
-                console.log(
-                    "made it to sockets",
-                    offerId,
-                    buyerId,
-                    status,
-                    treddits
-                );
                 store.dispatch(
                     changeOffer(offerId, buyerId, status, treddits, creatorId)
                 );

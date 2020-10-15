@@ -383,14 +383,27 @@ io.on("connection", async (socket) => {
         }
     );
 
+    socket.on("reject offer", async (offerId, value) => {
+        console.log("before updating the data", offerId, value);
+        const { rows: RejectedOffer } = await db.updateOfferStatus(
+            offerId,
+            value
+        );
+        console.log(
+            "after updating the data",
+            offerId,
+            RejectedOffer,
+            RejectedOffer[0].status
+        );
+
+        io.sockets.emit("reject action", offerId, RejectedOffer[0].status);
+    });
+
     socket.on("accept offer", async (offerId, value) => {
-        console.log(offerId, value);
         const { rows: changedOffer } = await db.updateOfferStatus(
             offerId,
             value
         );
-
-        console.log(changedOffer[0].status, changedOffer);
 
         const creator = changedOffer[0].creator_id;
         const buyer = changedOffer[0].buyer_id;

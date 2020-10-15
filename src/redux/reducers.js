@@ -117,5 +117,22 @@ export default function (state = {}, action) {
         };
     }
 
+    if (action.type == "REJECT_REQUEST") {
+        state = {
+            ...state,
+            offers: state.offers.map((offer) => {
+                if (action.offerId == offer.id) {
+                    return {
+                        ...offer,
+                        status: action.status,
+                        buyer_id: null,
+                    };
+                } else {
+                    return offer;
+                }
+            }),
+        };
+    }
+
     return state;
 }

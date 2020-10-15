@@ -11,6 +11,7 @@ const ADD_OFFER = "ADD_OFFER";
 const RECEIVE_USERS = "RECEIVE_USERS";
 const MAKE_OFFER_REQUEST = "MAKE_OFFER_REQUEST";
 const BOOK_OFFER = "BOOK_OFFER";
+const REJECT_REQUEST = "REJECT_REQUEST";
 
 export async function recieveFriends() {
     try {
@@ -135,5 +136,13 @@ export async function changeOffer(
         status,
         treddits,
         creatorId,
+    };
+}
+
+export async function rejectOffer(offerId, status) {
+    return {
+        type: REJECT_REQUEST,
+        offerId,
+        status,
     };
 }
