@@ -234,6 +234,7 @@ app.post("/registration", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
     let { rows } = await db.getUserEmail(email);
     if (rows.length === 0) {
         res.sendStatus(500);
@@ -449,7 +450,6 @@ io.on("connection", async (socket) => {
     });
 
     socket.on("disconnect", () => {
-        console.log("XXXXXXX", socket.id);
         onlineUsers[userId] = onlineUsers[userId].filter((s) => {
             return s !== socket.id;
         });

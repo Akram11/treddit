@@ -64,7 +64,7 @@ export default function Profile({ ...props }) {
                         <Typography
                             align="center"
                             variant="h4"
-                            style={{ marginBottom: 40 }}
+                            style={{ marginBottom: 40, paddingTop: 40 }}
                         >
                             {offers.length > 0
                                 ? "My offers"

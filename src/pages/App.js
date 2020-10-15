@@ -12,6 +12,7 @@ import PrimaryAppBar from "../components/AppBar";
 import UserChat from "../components/UserChat";
 import AddOffer from "../components/AddOffer";
 import Home from "../components/Home";
+import SignIn from "../components/SignIn";
 
 export default class App extends Component {
     constructor(props) {
@@ -109,6 +110,11 @@ export default class App extends Component {
                                     />
                                 )}
                             />
+                            <Route
+                                path="/test"
+                                render={(props) => <SignIn />}
+                            />
+
                             <Route path="/users">
                                 <FindPeople />
                             </Route>

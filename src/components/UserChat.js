@@ -37,9 +37,9 @@ export default function Chat({ match }) {
                     ))}
             </div>
 
-            <div className="chat-input">
+            <div className="chat-input" style={{ width: "93vw" }}>
                 <TextField
-                    size={"medium"}
+                    size="medium"
                     autoFocus
                     // margin={"dense"}
                     // variant={fill}

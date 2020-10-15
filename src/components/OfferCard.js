@@ -147,10 +147,12 @@ export default function OfferCard({
                         <Typography className={classes.locaiontxt}>
                             {status}
                         </Typography>
+
                         <LocationOnIcon className={classes.locaionIcon} />
                         <Typography className={classes.locaiontxt}>
                             {location}
                         </Typography>
+
                         <Typography className={classes.cost}>
                             {treddits}
                         </Typography>
@@ -179,7 +181,8 @@ const useStyles = makeStyles((theme) => ({
         color: "orange",
     },
     name: {
-        color: "grey",
+        fontSize: 20,
+        fontWeight: 500,
         color: theme.palette.secondary.dark,
     },
     locaionIcon: { color: "grey", marginLeft: "auto" },

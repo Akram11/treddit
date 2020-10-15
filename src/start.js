@@ -33,7 +33,11 @@ const theme = createMuiTheme({
 
 let component;
 if (location.pathname === "/welcome") {
-    component = <Welcome />;
+    component = (
+        <ThemeProvider theme={theme}>
+            <Welcome />;
+        </ThemeProvider>
+    );
 } else {
     init(store);
     component = (
