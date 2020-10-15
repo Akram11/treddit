@@ -27,46 +27,44 @@ export default function Home({ ...props }) {
 
     return (
         <>
-            <Paper>
-                <div style={maintStyle}>
-                    <div style={style}>
-                        <ProfilePicture
-                            first={first}
-                            last={last}
-                            img_url={img_url}
-                        />
-                        <Typography align="center" variant="h5">
-                            {first} {last}
-                        </Typography>
-                        <Typography align="center" variant="subtitle2">
-                            credits balance: {user && user[0]["credits"]}
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            // onClick={() => location.replace("/add-offer")}
-                        >
-                            <Link
-                                to="/add-offer"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "white",
-                                }}
-                            >
-                                add an offer
-                            </Link>
-                        </Button>
-                    </div>
-
-                    <OffersList
-                        actionCard={false}
-                        offers={offers}
-                        userId={userId}
-                        userName={first}
-                        credits={credits}
+            <div style={maintStyle}>
+                <div style={style}>
+                    <ProfilePicture
+                        first={first}
+                        last={last}
+                        img_url={img_url}
                     />
+                    <Typography align="center" variant="h5">
+                        {first} {last}
+                    </Typography>
+                    <Typography align="center" variant="subtitle2">
+                        credits balance: {user && user[0]["credits"]}
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        // onClick={() => location.replace("/add-offer")}
+                    >
+                        <Link
+                            to="/add-offer"
+                            style={{
+                                textDecoration: "none",
+                                color: "white",
+                            }}
+                        >
+                            add an offer
+                        </Link>
+                    </Button>
                 </div>
-            </Paper>
+
+                <OffersList
+                    actionCard={false}
+                    offers={offers}
+                    userId={userId}
+                    userName={first}
+                    credits={credits}
+                />
+            </div>
         </>
     );
 }
