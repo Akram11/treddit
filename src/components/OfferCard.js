@@ -40,13 +40,13 @@ export default function OfferCard({
     location,
     actionCard,
 }) {
-    console.log(actionCard);
+    console.log(credits < treddits && status.includes("available"));
     const users = useSelector((state) => state && state.users);
     // const buyer =
     //     users && buyerId && users.filter((user) => user.id == buyerId);
     const classes = useStyles();
     const handleAccept = () => {
-        console.log(offerId, "exchanged");
+        // console.log(offerId, "exchanged");
         socket.emit("accept offer", offerId, "exchanged");
     };
 
@@ -130,12 +130,16 @@ export default function OfferCard({
                             <ChatBubbleIcon color="primary" />
                         </IconButton>
                         <IconButton
-                            disabled={credits >= treddits ? false : true}
+                            disabled={
+                                status == "available" && credits > treddits
+                                    ? false
+                                    : true
+                            }
                             onClick={handleBooking}
                         >
                             <EmojiPeopleIcon
                                 color={
-                                    credits >= treddits
+                                    status == "available" && credits > treddits
                                         ? "secondary"
                                         : "disabled"
                                 }
