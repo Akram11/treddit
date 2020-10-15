@@ -7,7 +7,7 @@ import { Button, Typography, Paper } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-export default function Profile({ ...props }) {
+export default function Home({ ...props }) {
     let {
         first,
         last,

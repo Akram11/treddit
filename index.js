@@ -214,11 +214,13 @@ app.post("/registration", async (req, res) => {
     try {
         const { first, last, email, password } = req.body;
         const hash = await bc.hash(password);
+        const img_url = `https://avatars.dicebear.com/api/gridy/${first}.svg`;
         const { rows } = await db.addUser(
             first.toLowerCase(),
             last.toLowerCase(),
             email.toLowerCase(),
-            hash
+            hash,
+            img_url
         );
         req.session.userId = rows[0].id;
         res.sendStatus(200);

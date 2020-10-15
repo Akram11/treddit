@@ -4,10 +4,10 @@ var db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/social"
 );
 
-module.exports.addUser = (fname, lname, email, hpwd) => {
+module.exports.addUser = (fname, lname, email, hpwd, img_url) => {
     return db.query(
-        `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) returning id`,
-        [fname, lname, email, hpwd]
+        `INSERT INTO users (first, last, email, password, img_url) VALUES ($1, $2, $3, $4, $5) returning id`,
+        [fname, lname, email, hpwd, img_url]
     );
 };
 
