@@ -22,7 +22,7 @@ export default function Chat({ match }) {
     const keyCheck = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            socket.emit("new chat msg", e.target.value);
+            socket.emit("new user msg", e.target.value, otherID);
             e.target.value = "";
         }
     };

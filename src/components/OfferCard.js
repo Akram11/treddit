@@ -38,7 +38,9 @@ export default function OfferCard({
     actionCard,
 }) {
     // const users = useSelector((state) => state && state.users);
-
+    // console.log(status == "exchanged");
+    var color = status == "exchanged" ? "#E8E8E8" : "white";
+    console.log(color);
     const classes = useStyles();
     const handleAccept = () => {
         socket.emit("accept offer", offerId, "exchanged");
@@ -62,7 +64,13 @@ export default function OfferCard({
     };
 
     return (
-        <Card className={classes.root}>
+        <Card
+            style={{
+                backgroundColor: color,
+                padding: 5,
+                margin: 5,
+            }}
+        >
             <CardHeader
                 avatar={
                     <Link to={`/user/${creatorId}`}>
@@ -170,7 +178,6 @@ const useStyles = makeStyles((theme) => ({
         padding: 5,
         margin: 5,
         // height: 225,
-        // backgroundColor: theme.palette.primary.light,
     },
     treddit: {
         color: "orange",

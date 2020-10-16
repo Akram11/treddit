@@ -92,7 +92,6 @@ export async function addOffer(offer) {
 export async function recieveUserChat(id) {
     try {
         const { data } = await axios.get(`/chat/${id}.json`);
-        console.log(data);
         return {
             type: RECEIVE_USER_CHAT,
             id,

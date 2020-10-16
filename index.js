@@ -380,6 +380,14 @@ io.on("connection", async (socket) => {
         io.sockets.emit("addChatMsg", msgInfo);
     });
 
+    socket.on("new user msg", async (newMsg, sentTo) => {
+        const { rows } = await db.addMessage(userId, newMsg, sentTo);
+        console.log(newMsg, sentTo);
+        // const { rows: senderData } = await db.getSender(userId);
+        // const msgInfo = { ...rows[0], ...senderData[0] };
+        // io.sockets.emit("addChatMsg", msgInfo);
+    });
+
     socket.on(
         "make an offer booking",
         async (offerId, creatorId, userId, treddits, value) => {
