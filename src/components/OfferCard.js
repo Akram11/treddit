@@ -40,7 +40,6 @@ export default function OfferCard({
     // const users = useSelector((state) => state && state.users);
     // console.log(status == "exchanged");
     var color = status == "exchanged" ? "#E8E8E8" : "white";
-    console.log(color);
     const classes = useStyles();
     const handleAccept = () => {
         socket.emit("accept offer", offerId, "exchanged");

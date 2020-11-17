@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import ProfilePicture from "./ProfilePicture";
 import BioEditor from "./BioEditor.js";
@@ -18,12 +18,45 @@ export default function Home({ ...props }) {
         credits,
         userId,
     } = props;
+
+    const [userInput, setUserInput] = useState("");
+    // console.log(userInput);
     const allOffers = useSelector((state) => state && state.offers);
-    let offers =
+    const filteredOffers =
         allOffers && allOffers.filter((offer) => offer.creator_id != userId);
+
+    const [offers, setOffers] = useState([]);
+    // let offers =
+    //     allOffers && allOffers.filter((offer) => offer.creator_id != userId);
     const users = useSelector((state) => state && state.users);
     const user = users && users.filter((user) => user.id == userId);
 
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        if (count > 0) {
+            return;
+        }
+        if (filteredOffers) {
+            setOffers(filteredOffers);
+            setCount(1);
+        }
+    }, [filteredOffers]);
+
+    console.log(offers);
+    function handleChange(e) {
+        // console.log("ss");
+        // setUserInput(e.target.value);
+        // offers = offers.filter((offer) => {
+        //     return offer.title == userInput;
+        // });
+        setOffers(
+            offers.map((offer) => {
+                return offer.title == "s";
+            })
+        );
+        // console.log(offers);
+    }
     return (
         <>
             <div style={maintStyle}>
@@ -63,14 +96,22 @@ export default function Home({ ...props }) {
                         </Link>
                     </Button>
                 </div>
-
-                <OffersList
-                    actionCard={false}
-                    offers={offers}
-                    userId={userId}
-                    userName={first}
-                    credits={credits}
-                />
+                <div>
+                    {/* <TextField
+                        fullWidth
+                        id="standard-search"
+                        label="Search offers"
+                        type="search"
+                        onChange={handleChange}
+                    /> */}
+                    <OffersList
+                        actionCard={false}
+                        offers={offers}
+                        userId={userId}
+                        userName={first}
+                        credits={credits}
+                    />
+                </div>
             </div>
         </>
     );

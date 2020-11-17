@@ -155,7 +155,6 @@ app.post("/friend-request", async (req, res) => {
     const sender_id = req.session.userId;
     const recipient_id = req.body.otherID;
     const { rows } = await db.addFriendRequest(sender_id, recipient_id);
-    console.log("/friendRequst", rows);
     res.json(rows);
 });
 
@@ -215,6 +214,7 @@ app.get("/get-friends", async (req, res) => {
 app.post("/registration", async (req, res) => {
     try {
         const { first, last, email, password } = req.body;
+        console.log(first, last, email, password);
         const hash = await bc.hash(password);
         const img_url = `https://avatars.dicebear.com/api/gridy/${first}.svg`;
         const { rows } = await db.addUser(
@@ -324,7 +324,7 @@ app.post("/bio", async (req, res) => {
 
 app.post("/add-offer", async (req, res) => {
     const { title, text, price, location } = req.body;
-    console.log(title, text, price, location);
+    // console.log(title, text, price, location);
 });
 
 app.get("*", function (req, res) {
@@ -342,7 +342,7 @@ server.listen(app.listen(process.env.PORT || 8080), function () {
 const onlineUsers = {};
 
 io.on("connection", async (socket) => {
-    console.log(`Socket with id ${socket.id} has connected`);
+    // console.log(`Socket with id ${socket.id} has connected`);
 
     const userId = socket.request.session.userId;
     if (!userId) return socket.disconnect(true);
@@ -356,7 +356,7 @@ io.on("connection", async (socket) => {
         onlineUsers[userId] = [socket.id];
     }
 
-    console.log(onlineUsers);
+    // console.log(onlineUsers);
 
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows.reverse());
@@ -382,7 +382,7 @@ io.on("connection", async (socket) => {
 
     socket.on("new user msg", async (newMsg, sentTo) => {
         const { rows } = await db.addMessage(userId, newMsg, sentTo);
-        console.log(newMsg, sentTo);
+        // console.log(newMsg, sentTo);
         // const { rows: senderData } = await db.getSender(userId);
         // const msgInfo = { ...rows[0], ...senderData[0] };
         // io.sockets.emit("addChatMsg", msgInfo);
@@ -413,12 +413,12 @@ io.on("connection", async (socket) => {
             offerId,
             value
         );
-        console.log(
-            "after updating the data",
-            offerId,
-            RejectedOffer,
-            RejectedOffer[0].status
-        );
+        // console.log(
+        //     "after updating the data",
+        //     offerId,
+        //     RejectedOffer,
+        //     RejectedOffer[0].status
+        // );
 
         io.sockets.emit("reject action", offerId, RejectedOffer[0].status);
     });
@@ -463,9 +463,9 @@ io.on("connection", async (socket) => {
         onlineUsers[userId] = onlineUsers[userId].filter((s) => {
             return s !== socket.id;
         });
-        console.log(
-            `Socket with id ${socket.id} has disconnected`,
-            onlineUsers
-        );
+        // console.log(
+        //     `Socket with id ${socket.id} has disconnected`,
+        //     onlineUsers
+        // );
     });
 });
