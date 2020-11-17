@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "@material-ui/core/Modal";
-import { Button } from "@material-ui/core/";
+import { Button, Typography } from "@material-ui/core/";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import axios from "../axios";
 
@@ -52,10 +52,9 @@ export default class Uploader extends React.Component {
             <div>
                 <Modal open={true} onClose={this.props.close}>
                     <div style={getModalStyle()}>
-                        <h2>Upload a new profile image:</h2>
+                        <Typography>Upload a new profile image:</Typography>
                         <input
                             id="contained-button-file"
-                            // style={{ display: "none" }}
                             accept="image/*"
                             type="file"
                             onChange={(e) => this.handleChange(e)}
@@ -83,9 +82,8 @@ function getModalStyle() {
         left: `50%`,
         transform: `translate(-50%, -50%)`,
         position: "absolute",
-        width: `50%`,
+        width: `40%`,
         backgroundColor: "white",
-        // border: "1px solid #000",
-        padding: `10px`,
+        padding: `30px`,
     };
 }

@@ -6,11 +6,16 @@ const RECEIVE_MESSAGES = "RECEIVE_MESSAGES";
 const ADD_MESSAGE = "ADD_MESSAGE";
 const RECEIVE_USER_CHAT = "RECEIVE_USER_CHAT";
 const ADD_CHAT_USER_MESSAGE = "ADD_CHAT_USER_MESSAGE";
+const RECEIVE_OFFERS = "RECEIVE_OFFERS";
+const ADD_OFFER = "ADD_OFFER";
+const RECEIVE_USERS = "RECEIVE_USERS";
+const MAKE_OFFER_REQUEST = "MAKE_OFFER_REQUEST";
+const BOOK_OFFER = "BOOK_OFFER";
+const REJECT_REQUEST = "REJECT_REQUEST";
 
 export async function recieveFriends() {
     try {
         const { data } = await axios.get("/get-friends");
-        // console.log("RECIEVE FRIEND in ACTIONS: ", data.users);
         return {
             type: RECEIVE_FRIENDS,
             users: data.users,
@@ -56,6 +61,20 @@ export async function receiveMessages(msgs) {
     };
 }
 
+export async function receiveUsers(users) {
+    return {
+        type: RECEIVE_USERS,
+        users,
+    };
+}
+
+export function receiveOffer(offers) {
+    return {
+        type: RECEIVE_OFFERS,
+        offers,
+    };
+}
+
 export async function AddchatMessage(msg) {
     return {
         type: ADD_MESSAGE,
@@ -63,10 +82,16 @@ export async function AddchatMessage(msg) {
     };
 }
 
+export async function addOffer(offer) {
+    return {
+        type: ADD_OFFER,
+        offer,
+    };
+}
+
 export async function recieveUserChat(id) {
     try {
         const { data } = await axios.get(`/chat/${id}.json`);
-        console.log(data);
         return {
             type: RECEIVE_USER_CHAT,
             id,
@@ -82,5 +107,41 @@ export async function AddchatUserMessage(id, text) {
         type: ADD_CHAT_USER_MESSAGE,
         id,
         data,
+    };
+}
+
+bookOffer;
+
+export async function bookOffer(offerId, buyerId, status) {
+    return {
+        type: BOOK_OFFER,
+        offerId,
+        buyerId,
+        status,
+    };
+}
+
+export async function changeOffer(
+    offerId,
+    buyerId,
+    status,
+    treddits,
+    creatorId
+) {
+    return {
+        type: MAKE_OFFER_REQUEST,
+        offerId,
+        buyerId,
+        status,
+        treddits,
+        creatorId,
+    };
+}
+
+export async function rejectOffer(offerId, status) {
+    return {
+        type: REJECT_REQUEST,
+        offerId,
+        status,
     };
 }

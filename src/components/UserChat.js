@@ -22,13 +22,12 @@ export default function Chat({ match }) {
     const keyCheck = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            socket.emit("new chat msg", e.target.value);
+            socket.emit("new user msg", e.target.value, otherID);
             e.target.value = "";
         }
     };
     return (
         <>
-            thisis user chat
             <div className="area chat-container" ref={elemRef}>
                 {chatMessages &&
                     chatMessages.map((message) => (
@@ -37,7 +36,18 @@ export default function Chat({ match }) {
                         </div>
                     ))}
             </div>
-            <TextField fullWidth onKeyDown={keyCheck}></TextField>
+
+            <div className="chat-input" style={{ width: "93vw" }}>
+                <TextField
+                    size="medium"
+                    autoFocus
+                    // margin={"dense"}
+                    // variant={fill}
+                    fullWidth
+                    variant="outlined"
+                    onKeyDown={keyCheck}
+                ></TextField>
+            </div>
         </>
     );
 }

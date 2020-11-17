@@ -10,6 +10,9 @@ import Friends from "../components/Friends";
 import Chat from "../components/Chat";
 import PrimaryAppBar from "../components/AppBar";
 import UserChat from "../components/UserChat";
+import AddOffer from "../components/AddOffer";
+import Home from "../components/Home";
+import SignIn from "../components/SignIn";
 
 export default class App extends Component {
     constructor(props) {
@@ -23,9 +26,7 @@ export default class App extends Component {
         let { data } = await axios.get("/user");
         this.setState({
             ...data,
-            img_url:
-                data.img_url ||
-                `https://api.adorable.io/avatars/229/${data.email}@adorable.io.png`,
+            img_url: data.img_url,
         });
     }
 
@@ -54,14 +55,33 @@ export default class App extends Component {
                             {/* <Bar /> */}
                             <Route
                                 exact
-                                path="/"
+                                path="/profile"
                                 render={() => (
                                     <Profile
-                                        id={state.id}
+                                        userId={state.id}
                                         first={state.first}
                                         last={state.last}
                                         img_url={state.img_url}
                                         bio={state.bio}
+                                        credits={state.credits}
+                                        showModal={() =>
+                                            this.setState({ showModal: true })
+                                        }
+                                        setBio={(bio) => this.setBio(bio)}
+                                    />
+                                )}
+                            />
+                            <Route
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Home
+                                        userId={state.id}
+                                        first={state.first}
+                                        last={state.last}
+                                        img_url={state.img_url}
+                                        bio={state.bio}
+                                        credits={state.credits}
                                         showModal={() =>
                                             this.setState({ showModal: true })
                                         }
@@ -90,8 +110,16 @@ export default class App extends Component {
                                     />
                                 )}
                             />
+                            <Route
+                                path="/test"
+                                render={(props) => <SignIn />}
+                            />
+
                             <Route path="/users">
                                 <FindPeople />
+                            </Route>
+                            <Route path="/add-offer">
+                                <AddOffer />
                             </Route>
                             <Route path="/friends">
                                 <Friends />
@@ -115,24 +143,4 @@ export default class App extends Component {
             return <p>loading </p>;
         }
     }
-}
-{
-    /* <>
-    <div className="">welcome to app</div>
-    <Profile
-        bio={this.state.bio}
-        first={state.first}
-        last={state.last}
-        img_url={this.state.img_url}
-        showModal={() => this.setState({ showModal: true })}
-        setBio={(bio) => this.setBio(bio)}
-    />
-
-    {state.showModal && (
-        <Uploader
-            changeImg={(image) => this.setImage(image)}
-            close={() => this.setState({ showModal: false })}
-        />
-    )}
-</>; */
 }

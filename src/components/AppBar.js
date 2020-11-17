@@ -16,6 +16,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import PeopleIcon from "@material-ui/icons/People";
 import { Link } from "react-router-dom";
+import AvTimerIcon from "@material-ui/icons/AvTimer";
 
 export default function PrimaryAppBar({ img_url }) {
     const classes = useStyles();
@@ -41,11 +42,18 @@ export default function PrimaryAppBar({ img_url }) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <Link className={classes.links} to={"/profile"}>
+                    Profile
+                </Link>
+            </MenuItem>
+            <MenuItem className={classes.links} onClick={handleMenuClose}>
+                My account
+            </MenuItem>
             <MenuItem>
                 <a
-                    style={{ textDecoration: "none", color: "red" }}
+                    className={classes.links}
+                    style={{ textDecoration: "none" }}
                     href="/logout"
                 >
                     Log out
@@ -56,10 +64,17 @@ export default function PrimaryAppBar({ img_url }) {
 
     return (
         <div className={classes.grow}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        Social Network
+                    <AvTimerIcon
+                        style={{
+                            fontSize: 40,
+                        }}
+                    />
+                    <Typography className={classes.title} variant="h4" noWrap>
+                        <Link className={classes.logo} to="/">
+                            Treddit
+                        </Link>
                     </Typography>
                     {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -79,9 +94,7 @@ export default function PrimaryAppBar({ img_url }) {
                             <Badge badgeContent={0} color="secondary">
                                 <Link
                                     style={{
-                                        textDecoration: "none",
                                         color: "inherit",
-                                        paddingTop: 10,
                                     }}
                                     to="/users"
                                 >
@@ -91,7 +104,14 @@ export default function PrimaryAppBar({ img_url }) {
                         </IconButton>
                         <IconButton color="inherit">
                             <Badge badgeContent={0} color="secondary">
-                                <NotificationsIcon />
+                                <Link
+                                    style={{
+                                        color: "inherit",
+                                    }}
+                                    to=""
+                                >
+                                    <NotificationsIcon />
+                                </Link>
                             </Badge>
                         </IconButton>
                         <IconButton color="inherit">
@@ -100,7 +120,6 @@ export default function PrimaryAppBar({ img_url }) {
                                     style={{
                                         textDecoration: "none",
                                         color: "inherit",
-                                        paddingTop: 10,
                                     }}
                                     to="/chat"
                                 >
@@ -125,6 +144,8 @@ export default function PrimaryAppBar({ img_url }) {
                     </div>
                 </Toolbar>
             </AppBar>
+            <Toolbar />
+
             {renderMenu}
         </div>
     );
@@ -139,10 +160,11 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(4),
     },
     title: {
         display: "none",
+        marginLeft: 10,
         [theme.breakpoints.up("sm")]: {
             display: "block",
         },
@@ -182,10 +204,19 @@ const useStyles = makeStyles((theme) => ({
             width: "20ch",
         },
     },
-    sectionDesktop: {
-        display: "none",
-        [theme.breakpoints.up("md")]: {
-            display: "flex",
-        },
+    links: {
+        textDecoration: "none",
+        color: theme.palette.secondary.dark,
     },
+    logo: {
+        textDecoration: "none",
+        color: "#FFF",
+        fontWeight: "bold",
+    },
+    // sectionDesktop: {
+    //     display: "none",
+    //     [theme.breakpoints.up("md")]: {
+    //         display: "flex",
+    //     },
+    // },
 }));

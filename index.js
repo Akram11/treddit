@@ -14,7 +14,9 @@ const uidSafe = require("uid-safe");
 const s3 = require("./s3");
 const { s3Url } = require("./config");
 const server = require("http").Server(app);
-const io = require("socket.io")(server, { origins: "localhost:8080" });
+const io = require("socket.io")(server, {
+    origins: "localhost:8080 treddits.herokuapp.com:*",
+});
 
 app.use(express.json());
 
@@ -153,7 +155,6 @@ app.post("/friend-request", async (req, res) => {
     const sender_id = req.session.userId;
     const recipient_id = req.body.otherID;
     const { rows } = await db.addFriendRequest(sender_id, recipient_id);
-    console.log("/friendRequst", rows);
     res.json(rows);
 });
 
@@ -213,12 +214,15 @@ app.get("/get-friends", async (req, res) => {
 app.post("/registration", async (req, res) => {
     try {
         const { first, last, email, password } = req.body;
+        console.log(first, last, email, password);
         const hash = await bc.hash(password);
+        const img_url = `https://avatars.dicebear.com/api/gridy/${first}.svg`;
         const { rows } = await db.addUser(
             first.toLowerCase(),
             last.toLowerCase(),
             email.toLowerCase(),
-            hash
+            hash,
+            img_url
         );
         req.session.userId = rows[0].id;
         res.sendStatus(200);
@@ -232,6 +236,7 @@ app.post("/registration", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
     let { rows } = await db.getUserEmail(email);
     if (rows.length === 0) {
         res.sendStatus(500);
@@ -317,6 +322,11 @@ app.post("/bio", async (req, res) => {
     }
 });
 
+app.post("/add-offer", async (req, res) => {
+    const { title, text, price, location } = req.body;
+    // console.log(title, text, price, location);
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -325,28 +335,137 @@ app.get("*", function (req, res) {
     }
 });
 
-server.listen(8080, function () {
+server.listen(app.listen(process.env.PORT || 8080), function () {
     console.log("I'm listening.");
 });
 
+const onlineUsers = {};
+
 io.on("connection", async (socket) => {
-    console.log(`Socket with id ${socket.id} has connected`);
+    // console.log(`Socket with id ${socket.id} has connected`);
 
     const userId = socket.request.session.userId;
     if (!userId) return socket.disconnect(true);
+
+    // onlineUsers["userId"] = socket.id;
+
+    var item = {};
+    if (onlineUsers.hasOwnProperty(userId)) {
+        onlineUsers[userId].push(socket.id);
+    } else {
+        onlineUsers[userId] = [socket.id];
+    }
+
+    // console.log(onlineUsers);
+
     const { rows } = await db.getLastMsgs();
     io.sockets.emit("chatMessages", rows.reverse());
 
+    const { rows: offers } = await db.getOffers();
+    offers.map((offer) => {
+        offer.created_at = offer.created_at
+            .toLocaleDateString()
+            .split("/")
+            .join(".");
+    });
+    io.sockets.emit("offers", offers);
+
+    const { rows: users } = await db.getAllUsers();
+    io.sockets.emit("receiveUsers", users);
+
     socket.on("new msg", async (newMsg) => {
-        console.log("this message is coming from chat.js component:", newMsg);
         const { rows } = await db.addMessage(userId, newMsg);
         const { rows: senderData } = await db.getSender(userId);
         const msgInfo = { ...rows[0], ...senderData[0] };
-        console.log(msgInfo);
         io.sockets.emit("addChatMsg", msgInfo);
     });
 
+    socket.on("new user msg", async (newMsg, sentTo) => {
+        const { rows } = await db.addMessage(userId, newMsg, sentTo);
+        // console.log(newMsg, sentTo);
+        // const { rows: senderData } = await db.getSender(userId);
+        // const msgInfo = { ...rows[0], ...senderData[0] };
+        // io.sockets.emit("addChatMsg", msgInfo);
+    });
+
+    socket.on(
+        "make an offer booking",
+        async (offerId, creatorId, userId, treddits, value) => {
+            const { rows: bookOffer } = await db.updateOffer(
+                offerId,
+                userId,
+                value
+            );
+
+            io.sockets.emit(
+                "BookOffer",
+                offerId,
+                bookOffer[0].buyer_id,
+                bookOffer[0].status,
+                creatorId
+            );
+        }
+    );
+
+    socket.on("reject offer", async (offerId, value) => {
+        console.log("before updating the data", offerId, value);
+        const { rows: RejectedOffer } = await db.updateOfferStatus(
+            offerId,
+            value
+        );
+        // console.log(
+        //     "after updating the data",
+        //     offerId,
+        //     RejectedOffer,
+        //     RejectedOffer[0].status
+        // );
+
+        io.sockets.emit("reject action", offerId, RejectedOffer[0].status);
+    });
+
+    socket.on("accept offer", async (offerId, value) => {
+        const { rows: changedOffer } = await db.updateOfferStatus(
+            offerId,
+            value
+        );
+
+        const creator = changedOffer[0].creator_id;
+        const buyer = changedOffer[0].buyer_id;
+        const treddits = changedOffer[0].price;
+        await db.updateBalance(-treddits, buyer);
+        await db.updateBalance(treddits, creator);
+
+        io.sockets.emit(
+            "changeOffer",
+            offerId,
+            changedOffer[0].buyer_id,
+            changedOffer[0].status,
+            treddits,
+            creator
+        );
+    });
+
+    socket.on("new offer", async (value) => {
+        const { title, text, price, location } = value;
+        const { rows: offer } = await db.addOffer(
+            userId,
+            title,
+            text,
+            price,
+            location
+        );
+        const { rows: creatorData } = await db.getSender(userId);
+        const offerInfo = { ...offer[0], ...creatorData[0] };
+        io.sockets.emit("addOffer", offerInfo);
+    });
+
     socket.on("disconnect", () => {
-        console.log(`Socket with id ${socket.id} has disconnected`);
+        onlineUsers[userId] = onlineUsers[userId].filter((s) => {
+            return s !== socket.id;
+        });
+        // console.log(
+        //     `Socket with id ${socket.id} has disconnected`,
+        //     onlineUsers
+        // );
     });
 });

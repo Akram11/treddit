@@ -11,7 +11,6 @@ import {
 import { Link } from "react-router-dom";
 import { useStatefulFields } from "../hooks/useStatefulFields";
 import { useAuthSubmit } from "../hooks/useAuthSubmit";
-
 import { useStyles } from "../styles.js";
 import { FormControl } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
@@ -31,8 +30,6 @@ export default function Registration() {
             <form className={classes.root} autoComplete="off">
                 <TextField
                     size="small"
-                    type="text"
-                    // value={first}
                     label="First Name"
                     variant="outlined"
                     required

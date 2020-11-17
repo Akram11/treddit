@@ -21,9 +21,7 @@ export default class OtherProfile extends React.Component {
         } else {
             this.setState({
                 ...data,
-                img_url:
-                    data.img_url ||
-                    `https://api.adorable.io/avatars/200/${data.email}@adorable.io.png`,
+                img_url: data.img_url,
             });
         }
     }

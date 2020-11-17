@@ -4,10 +4,10 @@ var db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/social"
 );
 
-module.exports.addUser = (fname, lname, email, hpwd) => {
+module.exports.addUser = (fname, lname, email, hpwd, img_url) => {
     return db.query(
-        `INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) returning id`,
-        [fname, lname, email, hpwd]
+        `INSERT INTO users (first, last, email, password, img_url) VALUES ($1, $2, $3, $4, $5) returning id`,
+        [fname, lname, email, hpwd, img_url]
     );
 };
 
@@ -38,7 +38,7 @@ module.exports.getCode = (email) => {
 
 module.exports.getUser = (id) => {
     return db.query(
-        `SELECT id, first, last, email, img_url, bio FROM users WHERE id = $1`,
+        `SELECT id, first, last, credits ,email, img_url, bio FROM users WHERE id = $1`,
         [id]
     );
 };
@@ -68,6 +68,12 @@ module.exports.updateBio = (id, bio) => {
 module.exports.getRecentUsers = () => {
     return db.query(`SELECT id, first, last, email ,img_url, email,bio FROM users 
      ORDER BY id DESC LIMIT 3;
+     `);
+};
+
+module.exports.getAllUsers = () => {
+    return db.query(`SELECT id, first, last, email, credits ,img_url, bio FROM users 
+     ORDER BY id;
      `);
 };
 
@@ -153,9 +159,10 @@ module.exports.addMessage = (sender_id, text) => {
 };
 
 module.exports.getSender = (id) => {
-    return db.query(`SELECT first, last, img_url FROM users WHERE id = $1`, [
-        id,
-    ]);
+    return db.query(
+        `SELECT first, last, email ,img_url FROM users WHERE id = $1`,
+        [id]
+    );
 };
 
 module.exports.getUserChat = (id, otherID) => {
@@ -166,6 +173,52 @@ module.exports.getUserChat = (id, otherID) => {
         [id, otherID]
     );
 };
+
+module.exports.getOffers = () => {
+    return db.query(`SELECT users.id, first, last, img_url, email ,offers.id , creator_id, buyer_id ,status, title, text, price, status, location ,offers.created_at
+        FROM users JOIN offers on users.id = offers.creator_id ORDER BY offers.id DESC`);
+};
+module.exports.getOffer = (id) => {
+    return db.query(
+        `SELECT users.id, first, last, img_url, email,offers.id , creator_id, title, text, price, status, location ,offers.created_at
+        FROM users JOIN offers on users.id = offers.creator_id AND users.id = $1`,
+        [id]
+    );
+};
+
+module.exports.addOffer = (id, title, text, price, location) => {
+    return db.query(
+        ` INSERT INTO offers
+         (creator_id, title, text, price, location)
+          VALUES
+         ($1, $2, $3, $4, $5) RETURNING *`,
+        [id, title, text, price, location]
+    );
+};
+
+module.exports.updateOffer = (offerId, userId, value) => {
+    return db.query(
+        ` UPDATE offers SET status=$3, buyer_id=$2 where id=$1 RETURNING *`,
+        [offerId, userId, value]
+    );
+};
+
+module.exports.updateOfferStatus = (offerId, value) => {
+    return db.query(` UPDATE offers SET status=$2 where id=$1 RETURNING *`, [
+        offerId,
+        value,
+    ]);
+};
+
+module.exports.updateBalance = (value, userId) => {
+    console.log(value);
+    return db.query(` UPDATE users SET credits=credits + $1 WHERE id=$2`, [
+        value,
+        userId,
+    ]);
+};
+
+// just a comment
 // users.id, users.first, users.last, users.img_url, users.email , messages.text, messages.created_at
 
 // Select first, last, img_url, sender_id, text, created_at FROM users JOIN messages on users.id = messages.sender_id;

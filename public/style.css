@@ -1,14 +1,21 @@
 /* /////////////////////GENERAL STYLING/////////////////////////// */
-body,
+body {
+    background: #ffe8df;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
 * {
     padding: 0;
     margin: 0;
 }
 
-main {
+/* main {
     height: 100vh;
     width: 100vw;
-}
+} */
 
 /* //////////////////////FORMS//////////////////////////////////// */
 
@@ -22,6 +29,7 @@ main {
     height: 85vh;
     overflow-y: scroll;
     margin-left: 50px;
+    justify-content: space-between;
 }
 
 .talk-bubble {
@@ -39,16 +47,18 @@ main {
     box-shadow: 1px 1px 1px 1px #ccc;
 }
 
-/* .chat-area {
+.chat-area {
     display: "flex";
     flex-direction: row;
-    background-color: "red";
-    width: 1000px;
-} */
+
+    width: 100vw;
+    /* align-items: space-around; */
+    justify-content: space-between;
+}
 
 .chat-input {
-    justify-self: flex-end;
-    width: 90%;
+    align-self: flex-end;
+    width: 100%;
 }
 
 /* /////////////SCROLL BAR////// */
